@@ -13,8 +13,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "release": "standard-version"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -35,7 +34,5 @@
     ]
   },
   "proxy": "http://localhost:8081",
-  "devDependencies": {
-    "standard-version": "^9.3.2"
-  }
+  "devDependencies": {}
 }
