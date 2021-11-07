@@ -19,7 +19,7 @@ if db_url.startswith("postgres://"):
 app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 # Gets rid of a warning
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = b"I am a secret key!"  # don't defraud my app ok?
+app.secret_key = os.getenv("secret_key")  # don't defraud my app ok?
 
 db = SQLAlchemy(app)
 
