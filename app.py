@@ -43,7 +43,6 @@ def index():
     data = json.dumps(DATA)
     return flask.render_template("index.html", data=data)
 
-
 app.register_blueprint(bp)
 
 #registration page to register a new user
@@ -71,3 +70,9 @@ def login():
         return flask.render_template("login.html")
 
 
+if __name__ == "__main__":
+    app.run(
+        host=os.getenv("HOST", "0.0.0.0"),
+        port=int(os.getenv("PORT", 8080)),
+        debug=True
+    )
