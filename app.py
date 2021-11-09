@@ -31,7 +31,7 @@ db = SQLAlchemy(app)
 
 bp = flask.Blueprint("bp", __name__, template_folder="./build")
 
-#main landing page when app is launched
+# main landing page when app is launched
 @app.route("/", methods=["GET", "POST"])
 def main():
     return flask.render_template("login.html")
@@ -46,28 +46,36 @@ def index():
 
 app.register_blueprint(bp)
 
-#registration page to register a new user
-#NOTE user cannot be verified until DB is set up and conditional statements 
-#will have to be updated
+# registration page to register a new user
+# NOTE user cannot be verified until DB is set up and conditional statements
+# will have to be updated
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
     username = flask.request.form.get("username")
 
     if username:
-        flask.redirect(flask.url_for("index"))
-    return flask.render_template("registration.html")
+        return flask.redirect(flask.url_for("index"))
+    else:
+        return flask.render_template("registration.html")
 
-#login page to verify if a user exists 
-#NOTE user cannot be verified until DB is set up and conditional statements 
-#will have to be updated
-#NOTE Had trouble routing user to profile page in App.js once user is validated
+
+# login page to verify if a user exists
+# NOTE user cannot be verified until DB is set up and conditional statements
+# will have to be updated
+# NOTE Had trouble routing user to profile page in App.js once user is validated
 @app.route("/login", methods=["GET", "POST"])
 def login():
     username = flask.request.form.get("username")
 
     if username:
-        flask.redirect(flask.url_for("index"))
+        return flask.redirect(flask.url_for("index"))
     else:
         return flask.render_template("login.html")
 
 
+if __name__ == "__main__":
+    app.run(
+        host=os.getenv("HOST", "0.0.0.0"),
+        port=int(os.getenv("PORT", 8080)),
+        debug=True
+    )
