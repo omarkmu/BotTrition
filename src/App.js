@@ -9,7 +9,7 @@ function App() {
   const args = JSON.parse(document.getElementById("data").text);
 
   return (
-    <h1>This is Skeleton </h1>
+    <h1> Welcome To Profile Page User !</h1>
   );
 }
 
