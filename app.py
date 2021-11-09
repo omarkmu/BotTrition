@@ -54,7 +54,7 @@ def registration():
     username = flask.request.form.get("username")
 
     if username:
-        pass
+        flask.redirect(flask.url_for("index"))
     return flask.render_template("registration.html")
 
 #login page to verify if a user exists 
@@ -66,7 +66,7 @@ def login():
     username = flask.request.form.get("username")
 
     if username:
-        pass
+        flask.redirect(flask.url_for("index"))
     else:
         return flask.render_template("login.html")
 
