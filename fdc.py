@@ -9,7 +9,7 @@ _FDC_URL = "https://api.nal.usda.gov/fdc/v1/"  # base url of the FDC API
 _SECRETS = {"FDC_KEY": None}  # using a dict rather than a global variable
 
 
-def _get(endpoint: str, params: dict = None):
+def _get(endpoint, params=None):
     if _SECRETS["FDC_KEY"] is None:
         raise Exception("FDC key has not been set")
 
@@ -28,7 +28,7 @@ def _get(endpoint: str, params: dict = None):
     return json
 
 
-def _post(endpoint: str, data: dict = None):
+def _post(endpoint, data=None):
     if _SECRETS["FDC_KEY"] is None:
         raise Exception("FDC key has not been set")
 
@@ -47,7 +47,7 @@ def _post(endpoint: str, data: dict = None):
     return response
 
 
-def set_key(key: str) -> None:
+def set_key(key):
     """
     Sets the FoodData Central API key
     to be used during API requests.
