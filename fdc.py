@@ -8,6 +8,10 @@ import requests
 
 _FDC_URL = "https://api.nal.usda.gov/fdc/v1"  # base url of the FDC API
 _SECRETS = {"FDC_KEY": None}  # using a dict rather than a global variable
+_SORT_VALUES = {
+    "dataType": "dataType.keyword",
+    "description": "lowercaseDescription.keyword",
+}
 
 
 def _get(endpoint, params=None):
@@ -106,8 +110,8 @@ def get_foods(fdc_ids, nutrient_numbers=None, abridged=False):
 
 # the "dataType" parameter is intentionally excluded from this function
 # and from the search function as a design decision; the "Foundation" and "Branded"
-# types are the only typed which include food nutrients, which
-# are an essential part of our app, so those two types will be
+# types are the only types which include food nutrients, which
+# are an essential part of our app. Those two types will be
 # the only acceptable data types, and they will always be used as filters.
 
 
@@ -123,6 +127,25 @@ def list_foods(page=1, per_page=50, sort=None, sort_direction=None):
         - sort_direction: The direction that the sort
             should be applied; "asc" or "desc".
     """
+
+    data = {}
+    # if sort is a key in _SORT_VALUES, get the value.
+    # otherwise, use the supplied sort parameter as the value.
+    sort = _SORT_VALUES.get(sort, sort)
+
+    if page != 1:
+        data["pageNumber"] = page
+
+    if per_page != 50:
+        data["pageSize"] = per_page
+
+    if sort is not None:
+        data["sortBy"] = sort
+
+    if sort_direction is not None:
+        data["sortOrder"] = sort_direction
+
+    return _post("foods/list", data)
 
 
 def search(query, page=1, per_page=50, sort=None, sort_direction=None):
