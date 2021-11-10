@@ -12,6 +12,15 @@ _SORT_VALUES = {
     "dataType": "dataType.keyword",
     "description": "lowercaseDescription.keyword",
 }
+_DATA_TYPES = ["Branded", "Foundation"]
+# the "dataType" parameter is intentionally excluded from the list and search
+# functions as a design decision; the "Branded" and "Foundation"
+# types are the only types which include food nutrients, which
+# are an essential part of our app. Those two types will be
+# the only acceptable data types, and they will always be used as filters.
+
+# the "brandOwner" parameter is also excluded from search, as it doesn't seem like
+# a feature we'll need. This can be easily added if necessary.
 
 
 def _get(endpoint, params=None):
@@ -55,11 +64,28 @@ def _post(endpoint, data=None):
     return json_response
 
 
-# setting up initial declarations without bodies
-# while deciding how to structure responses.
+def _assign_search_info(data, page, per_page, sort, sort_direction):
+    # if sort is a key in _SORT_VALUES, get the value.
+    # otherwise, use the supplied sort parameter as the value.
+    sort = _SORT_VALUES.get(sort, sort)
 
-# ultimately, these will probably return an
-# object instead of dict so it's easier to work with the results
+    if page != 1:
+        data["pageNumber"] = page
+
+    if per_page != 50:
+        data["pageSize"] = per_page
+
+    if sort is not None:
+        data["sortBy"] = sort
+
+    if sort_direction is not None:
+        data["sortOrder"] = sort_direction
+
+    data["dataType"] = _DATA_TYPES
+
+
+# ultimately, the functions below will probably return an
+# object instead of dict so it's easier to work with the results.
 
 
 def get_food_by_id(fdc_id, nutrient_numbers=None, abridged=False):
@@ -108,13 +134,6 @@ def get_foods(fdc_ids, nutrient_numbers=None, abridged=False):
     return _post("foods", data)
 
 
-# the "dataType" parameter is intentionally excluded from this function
-# and from the search function as a design decision; the "Foundation" and "Branded"
-# types are the only types which include food nutrients, which
-# are an essential part of our app. Those two types will be
-# the only acceptable data types, and they will always be used as filters.
-
-
 def list_foods(page=1, per_page=50, sort=None, sort_direction=None):
     """
     Retrieves a list of available foods.
@@ -129,25 +148,14 @@ def list_foods(page=1, per_page=50, sort=None, sort_direction=None):
     """
 
     data = {}
-    # if sort is a key in _SORT_VALUES, get the value.
-    # otherwise, use the supplied sort parameter as the value.
-    sort = _SORT_VALUES.get(sort, sort)
-
-    if page != 1:
-        data["pageNumber"] = page
-
-    if per_page != 50:
-        data["pageSize"] = per_page
-
-    if sort is not None:
-        data["sortBy"] = sort
-
-    if sort_direction is not None:
-        data["sortOrder"] = sort_direction
+    _assign_search_info(data, page, per_page, sort, sort_direction)
 
     return _post("foods/list", data)
 
 
+# NOTE: consideration for search operators needs to be implemented
+# in either the frontend, the backend, or both. Otherwise, errors may
+# occur for unmatched parentheses.
 def search(query, page=1, per_page=50, sort=None, sort_direction=None):
     """
     Searches for foods based on a search query.
@@ -161,6 +169,11 @@ def search(query, page=1, per_page=50, sort=None, sort_direction=None):
         - sort_direction: The direction that the sort
             should be applied; "asc" or "desc".
     """
+
+    data = {"query": query}
+    _assign_search_info(data, page, per_page, sort, sort_direction)
+
+    return _post("foods/search", data)
 
 
 def set_key(key):
