@@ -3,6 +3,7 @@ Handles requests to and responses from
 the USDA FoodData Central (FDC) API.
 """
 
+import json
 import requests
 
 _FDC_URL = "https://api.nal.usda.gov/fdc/v1"  # base url of the FDC API
@@ -19,13 +20,13 @@ def _get(endpoint, params=None):
     params["api_key"] = _SECRETS["FDC_KEY"]
 
     response = requests.get(url, params=params)
-    json = response.json()
+    json_response = response.json()
 
     # TODO: perform error checking here
-    if not response.ok or "error" in json:
+    if not response.ok or "error" in json_response:
         pass
 
-    return json
+    return json_response
 
 
 def _post(endpoint, data=None):
@@ -33,18 +34,21 @@ def _post(endpoint, data=None):
         raise Exception("FDC key has not been set")
 
     url = f"{_FDC_URL}/{endpoint}"
-
-    data = data or {}
     params = {"api_key": _SECRETS["FDC_KEY"]}
 
-    response = requests.post(url, params=params, data=data)
-    json = response.json()
+    response = requests.post(
+        url,
+        params=params,
+        data=json.dumps(data or {}),
+        headers={"Content-Type": "application/json"},
+    )
+    json_response = response.json()
 
     # TODO: perform error checking here too
-    if not response.ok or "error" in json:
+    if not response.ok or "error" in json_response:
         pass
 
-    return response
+    return json_response
 
 
 # setting up initial declarations without bodies
@@ -69,7 +73,7 @@ def get_food_by_id(fdc_id, nutrient_numbers=None, abridged=False):
     params = {}
 
     if nutrient_numbers is not None:
-        params["nutrients"] = ",".join(nutrient_numbers)
+        params["nutrients"] = ",".join(map(str, nutrient_numbers))
 
     if abridged:
         params["format"] = "abridged"
@@ -88,6 +92,16 @@ def get_foods(fdc_ids, nutrient_numbers=None, abridged=False):
             the "foodNutrients" field will be empty.
         - abridged: Whether to return abridged results.
     """
+
+    data = {"fdcIds": fdc_ids}
+
+    if nutrient_numbers is not None:
+        data["nutrients"] = nutrient_numbers
+
+    if abridged:
+        data["format"] = "abridged"
+
+    return _post("foods", data)
 
 
 # the "dataType" parameter is intentionally excluded from this function
