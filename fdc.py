@@ -5,7 +5,7 @@ the USDA FoodData Central (FDC) API.
 
 import requests
 
-_FDC_URL = "https://api.nal.usda.gov/fdc/v1/"  # base url of the FDC API
+_FDC_URL = "https://api.nal.usda.gov/fdc/v1"  # base url of the FDC API
 _SECRETS = {"FDC_KEY": None}  # using a dict rather than a global variable
 
 
@@ -54,27 +54,37 @@ def _post(endpoint, data=None):
 # object instead of dict so it's easier to work with the results
 
 
-def get_food_by_id(fdc_id, nutrient_ids=None, abridged=False):
+def get_food_by_id(fdc_id, nutrient_numbers=None, abridged=False):
     """
     Retrieves information about a food given its FDC ID.
 
     Args:
         - fdc_id: The FDC ID of the food to retrieve.
-        - nutrient_ids: An optional list of up to 25 nutrients to retrieve.
-            If the food has no matching with the supplied nutrients,
+        - nutrient_numbers: An optional list of up to 25 nutrients to retrieve.
+            If the food has no matches with the supplied nutrients,
             the "foodNutrients" field in the response will be empty.
         - abridged: Whether to return abridged results.
     """
 
+    params = {}
 
-def get_foods(fdc_ids, nutrient_ids=None, abridged=False):
+    if nutrient_numbers is not None:
+        params["nutrients"] = ",".join(nutrient_numbers)
+
+    if abridged:
+        params["format"] = "abridged"
+
+    return _get(f"food/{fdc_id}", params)
+
+
+def get_foods(fdc_ids, nutrient_numbers=None, abridged=False):
     """
     Retrieves information about multiple foods given their FDC IDs.
 
     Args:
         - fdc_ids: A list of FDC IDs for foods to retrieve.
-        - nutrient_ids: An optional list of up to 25 nutrients to retrieve.
-            If a food has no matching with the supplied nutrients,
+        - nutrient_numbers: An optional list of up to 25 nutrients to retrieve.
+            If a food has no matches with the supplied nutrients,
             the "foodNutrients" field will be empty.
         - abridged: Whether to return abridged results.
     """

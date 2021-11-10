@@ -1,10 +1,10 @@
 from typing import List, Literal
 
 def get_food_by_id(
-    fdc_id: int, nutrient_ids: List[int] = None, abridged: bool = False
+    fdc_id: int, nutrient_numbers: List[int] = None, abridged: bool = False
 ) -> dict: ...
 def get_foods(
-    fdc_ids: List[int], nutrient_ids: List[int] = None, abridged: bool = False
+    fdc_ids: List[int], nutrient_numbers: List[int] = None, abridged: bool = False
 ) -> dict: ...
 def list_foods(
     page: int = 1,
@@ -19,4 +19,4 @@ def search(
     sort: Literal["dataType", "description", "fdcId", "publishedDate"] = None,
     sort_direction: Literal["asc", "desc"] = None,
 ): ...
-def set_key(key: str) -> None: ...
+def set_key(key: str | None) -> None: ...
