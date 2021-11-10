@@ -6,6 +6,7 @@ from flask_login import UserMixin
 from flask_login import login_user, current_user, LoginManager
 from flask_login.utils import login_required
 from flask_sqlalchemy import SQLAlchemy
+from models import owner
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -23,6 +24,7 @@ app.secret_key = os.getenv("secret_key")  # don't defraud my app ok?
 
 db = SQLAlchemy(app)
 
+
 # sample of creating table
 # class Health(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
@@ -31,7 +33,7 @@ db = SQLAlchemy(app)
 
 bp = flask.Blueprint("bp", __name__, template_folder="./build")
 
-#main landing page when app is launched
+# main landing page when app is launched
 @app.route("/", methods=["GET", "POST"])
 def main():
     return flask.render_template("login.html")
@@ -43,11 +45,12 @@ def index():
     data = json.dumps(DATA)
     return flask.render_template("index.html", data=data)
 
+
 app.register_blueprint(bp)
 
-#registration page to register a new user
-#NOTE user cannot be verified until DB is set up and conditional statements 
-#will have to be updated
+# registration page to register a new user
+# NOTE user cannot be verified until DB is set up and conditional statements
+# will have to be updated
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
     username = flask.request.form.get("username")
@@ -56,10 +59,11 @@ def registration():
         flask.redirect(flask.url_for("index"))
     return flask.render_template("registration.html")
 
-#login page to verify if a user exists 
-#NOTE user cannot be verified until DB is set up and conditional statements 
-#will have to be updated
-#NOTE Had trouble routing user to profile page in App.js once user is validated
+
+# login page to verify if a user exists
+# NOTE user cannot be verified until DB is set up and conditional statements
+# will have to be updated
+# NOTE Had trouble routing user to profile page in App.js once user is validated
 @app.route("/login", methods=["GET", "POST"])
 def login():
     username = flask.request.form.get("username")
@@ -72,7 +76,7 @@ def login():
 
 if __name__ == "__main__":
     app.run(
-        host=os.getenv("HOST", "0.0.0.0"),
-        port=int(os.getenv("PORT", 8080)),
+        # host=os.getenv("HOST", "0.0.0.0"),
+        # port=int(os.getenv("PORT", 8080)),
         debug=True
     )
