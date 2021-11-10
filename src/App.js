@@ -9,8 +9,12 @@ function App() {
   const args = JSON.parse(document.getElementById("data").text);
 
   return (
-    <h1> Welcome To Profile Page User !</h1>
-  );
+    <h1> ! Welcome To Main App Page User !</h1>
+  
+    //This main page will be further designed with react components
+    //so the user can interact with the main app page. Some Data will also
+    //be present for viewing when user lands on this page.
+    );
 }
 
 export default App;
