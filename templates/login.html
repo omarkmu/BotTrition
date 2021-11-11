@@ -1,24 +1,43 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <!--  
-  <style>
-   body {
-  # Uncomment to add CSS Styling
+    <style>
+        body {
+            font-family: Verdana;
+            background-color: #8BAAAD;
+            font: Verdana;
         }
-   </style>
-        -->
-</head>
-        <!-- Added an HTML Form To Login Users or Register Them For An Account -->    
 
+        .container {
+            max-width: 650px;
+            text-align: center;
+            margin: 1rem auto;
+            overflow: auto;
+            padding: 0px;
+        }
+    </style>
+    <title> Login </title>
+</head>
 
 <body>
-    <h1>Log In</h1>
-    <form method="POST" action="/login">
-        <input type="text" name="username" placeholder="Enter Username" required>
-        <input type="submit" value="Submit">
-    </form>
-    <a href="/registration">Register</a>
+    <div class="container">
+        <h1>Log in here</h1>
+        <form method="post" action="">
+            {{ form.hidden_tag() }}
+            {{ form.username }}
+            {{ form.password }}
+            {{ form.submit }}
+        </form>
+    </div>
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+        <div class="alert-error">{{ message }}</div>
+        {% endfor %}
+    </div>
+    <div class="container">
+        <a href="{{url_for('registration')}}">Don't have an account? Register Here.</a>
+    </div>
 </body>
 
 </html>
