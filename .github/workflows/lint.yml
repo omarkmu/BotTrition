@@ -1,16 +1,17 @@
-name: Run python linter
+name: Lint
 
 on:
   push:
     branches: [main]
     paths:
       - '**/*.py'
+      - '**/*.js'
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 jobs:
-  lint:
+  pylint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -26,3 +27,11 @@ jobs:
     - name: Run pylint
       run: |
         pylint `ls | grep .py$ | xargs` --rcfile=.pylintrc
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: npm install
+    - name: Run eslint
+      run: npm run lint
