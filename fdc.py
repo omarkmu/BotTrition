@@ -34,6 +34,7 @@ def _get(endpoint, params=None):
 
     try:
         response = requests.get(url, params=params)
+        response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as exc:
         # returning an error object matching the API error style
@@ -54,6 +55,7 @@ def _post(endpoint, data=None):
             data=json.dumps(data or {}),
             headers={"Content-Type": "application/json"},
         )
+        response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as exc:
         return {"error": {"code": "REQUEST_EXCEPTION", "message": str(exc)}}
@@ -136,7 +138,7 @@ def list_foods(page=1, per_page=50, sort=None, sort_direction=None):
     Args:
         - page: The page at which the list should start.
         - per_page: The number of results per page.
-        - sort: The field to sort by;one of "dataType",
+        - sort: The field to sort by; one of "dataType",
             "description", "fdcId", or "publishedDate".
         - sort_direction: The direction that the sort
             should be applied; "asc" or "desc".
