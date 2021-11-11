@@ -4,11 +4,12 @@ Contains definitions of database models.
 
 
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
 
-class BTUser(db.Model):
+class BTUser(db.Model, UserMixin):
     """Database model for BotTrition users."""
 
     __tablename__ = "btuser"
