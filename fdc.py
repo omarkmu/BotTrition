@@ -32,14 +32,12 @@ def _get(endpoint, params=None):
     params = params or {}
     params["api_key"] = _SECRETS["FDC_KEY"]
 
-    response = requests.get(url, params=params)
-    json_response = response.json()
-
-    # TODO: perform error checking here
-    if not response.ok or "error" in json_response:
-        pass
-
-    return json_response
+    try:
+        response = requests.get(url, params=params)
+        return response.json()
+    except requests.exceptions.RequestException as exc:
+        # returning an error object matching the API error style
+        return {"error": {"code": "REQUEST_EXCEPTION", "message": str(exc)}}
 
 
 def _post(endpoint, data=None):
@@ -49,19 +47,16 @@ def _post(endpoint, data=None):
     url = f"{_FDC_URL}/{endpoint}"
     params = {"api_key": _SECRETS["FDC_KEY"]}
 
-    response = requests.post(
-        url,
-        params=params,
-        data=json.dumps(data or {}),
-        headers={"Content-Type": "application/json"},
-    )
-    json_response = response.json()
-
-    # TODO: perform error checking here too
-    if not response.ok or "error" in json_response:
-        pass
-
-    return json_response
+    try:
+        response = requests.post(
+            url,
+            params=params,
+            data=json.dumps(data or {}),
+            headers={"Content-Type": "application/json"},
+        )
+        return response.json()
+    except requests.exceptions.RequestException as exc:
+        return {"error": {"code": "REQUEST_EXCEPTION", "message": str(exc)}}
 
 
 def _assign_search_info(data, page, per_page, sort, sort_direction):
