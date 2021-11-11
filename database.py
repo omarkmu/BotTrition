@@ -3,11 +3,15 @@ Contains definitions of database models.
 """
 
 
-from app import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 
 class BTUser(db.Model):
     """Database model for BotTrition users."""
+
+    __tablename__ = "btuser"
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -15,7 +19,7 @@ class BTUser(db.Model):
 
     food_allergies = db.relationship("Allergies", backref="btuser")
     dietary_restrictions = db.relationship("DietaryRestriction", backref="btuser")
-    user_profile = db.relationship("Profile", backref="btuser", uselist=False)
+    profile = db.relationship("Profile", backref="btuser", uselist=False)
 
 
 # So basically the Allergies and DietaryRestriction are multivalued so our user will have
@@ -24,6 +28,8 @@ class BTUser(db.Model):
 
 class Profile(db.Model):
     """Database model for BotTrition user profile information."""
+
+    __tablename__ = "profile"
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("btuser.id"))
@@ -40,6 +46,8 @@ class Profile(db.Model):
 class Allergies(db.Model):
     """Database model for BotTrition users' allergies."""
 
+    __tablename__ = "allergies"
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("btuser.id"))
     allergy = db.Column(db.String(80))
@@ -48,9 +56,8 @@ class Allergies(db.Model):
 class DietaryRestriction(db.Model):
     """Database model for BotTrition users' dietary restrictions."""
 
+    __tablename__ = "dietary_restrictions"
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("btuser.id"))
     restriction = db.Column(db.String(80))
-
-
-db.create_all()
