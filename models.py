@@ -1,45 +1,56 @@
-from sqlalchemy.orm import backref
+"""
+Contains definitions of database models.
+"""
+
+
 from app import db
 
 
-class Btowner(db.Model):
+class BTUser(db.Model):
+    """Database model for BotTrition users."""
+
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80))
-    password_hash = db.Column(db.String(80))
-    foodAllergies = db.relationship("Allergies", backref="food_allergies")
-    dietaryrestriction = db.relationship("DietaryRestriction", backref="food_dietary")
-    ownerage = db.relationship("Age", backref="user_age", uselist=False)
-    profileData = db.relationship("Profile", backref="user_data", uselist=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password_hash = db.Column(db.String(80), nullable=False)
+
+    food_allergies = db.relationship("Allergies", backref="btuser")
+    dietary_restrictions = db.relationship("DietaryRestriction", backref="btuser")
+    user_profile = db.relationship("Profile", backref="btuser", uselist=False)
 
 
-# So basically the Allergies and DietaryRestriction are multivalued so our user will have one to many relationship with these two attributes.
-# With the Age and profile  user has one to one relationship since every user have age.
+# So basically the Allergies and DietaryRestriction are multivalued so our user will have
+# one to many relationship with these two attributes.
 
 
 class Profile(db.Model):
+    """Database model for BotTrition user profile information."""
+
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("btuser.id"))
+
     gender = db.Column(db.String(80))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
-    user_data = db.Column(db.Integer, db.ForeignKey("btowner.id"))
+
+    birth_day = db.Column(db.Integer)
+    birth_month = db.Column(db.Integer)
+    birth_year = db.Column(db.Integer)
 
 
 class Allergies(db.Model):
+    """Database model for BotTrition users' allergies."""
+
     id = db.Column(db.Integer, primary_key=True)
-    users_food_allergies = db.Column(db.Integer, db.ForeignKey("btowner.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("btuser.id"))
+    allergy = db.Column(db.String(80))
 
 
 class DietaryRestriction(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    users_food_dietary = db.Column(db.Integer, db.ForeignKey("btowner.id"))
+    """Database model for BotTrition users' dietary restrictions."""
 
-
-class Age(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    day = db.Column(db.Integer)
-    month = db.Column(db.Integer)
-    year = db.Column(db.Integer)
-    user_calculated_age = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("btuser.id"))
+    restriction = db.Column(db.String(80))
 
 
 db.create_all()

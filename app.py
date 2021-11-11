@@ -1,12 +1,16 @@
-import flask
+"""
+The entry point of the BotTrition app.
+"""
+
 import os
 import json
+import flask
 
 from flask_login import UserMixin
 from flask_login import login_user, current_user, LoginManager
 from flask_login.utils import login_required
 from flask_sqlalchemy import SQLAlchemy
-from models import owner
+from models import BTUser
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
