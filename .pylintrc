@@ -1,0 +1,5 @@
+[MESSAGES CONTROL]
+
+disable=no-member,
+        invalid-envvar-default,
+        too-few-public-methods
