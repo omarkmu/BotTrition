@@ -61,16 +61,14 @@ def registration():
 # login page to verify if a user exists
 # NOTE user cannot be verified until DB is set up and conditional statements
 # will have to be updated
-# NOTE Had trouble routing user to profile page in App.js once user is validated
 @app.route("/login", methods=["GET", "POST"])
 def login():
     username = flask.request.form.get("username")
 
     if username:
-        return flask.redirect(flask.url_for("index"))
+        return flask.render_template("profile.html")
     else:
         return flask.render_template("login.html")
-
 
 if __name__ == "__main__":
     app.run(
