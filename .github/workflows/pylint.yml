@@ -7,8 +7,6 @@ on:
       - '**/*.py'
   pull_request:
     branches: [main]
-    paths:
-      - '**/*.py'
   workflow_dispatch:
 
 jobs:
