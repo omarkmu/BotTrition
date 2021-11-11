@@ -28,7 +28,7 @@
           "*.js"
         ],
         "rules": {
-          "no-unused-expressions": "off",
+          "react/function-component-definition": "off",
           "react/no-array-index-key": "off",
           "react-hooks/exhaustive-deps": "off",
           "react/jsx-filename-extension": "off"
