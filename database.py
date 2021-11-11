@@ -17,8 +17,7 @@ class BTUser(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(80), nullable=False)
 
-    food_allergies = db.relationship("Allergies", backref="btuser")
-    dietary_restrictions = db.relationship("DietaryRestriction", backref="btuser")
+    restrictions = db.relationship("DietaryRestriction", backref="btuser")
     profile = db.relationship("Profile", backref="btuser", uselist=False)
 
 
@@ -43,21 +42,12 @@ class Profile(db.Model):
     birth_year = db.Column(db.Integer)
 
 
-class Allergies(db.Model):
-    """Database model for BotTrition users' allergies."""
-
-    __tablename__ = "allergies"
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("btuser.id"))
-    allergy = db.Column(db.String(80))
-
-
 class DietaryRestriction(db.Model):
     """Database model for BotTrition users' dietary restrictions."""
 
-    __tablename__ = "dietary_restrictions"
+    __tablename__ = "dietary_restriction"
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("btuser.id"))
+    restriction_type = db.Column(db.String(10))  # one of "allergy", "diet"
     restriction = db.Column(db.String(80))
