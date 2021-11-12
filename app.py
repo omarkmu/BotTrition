@@ -58,14 +58,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# grabs the current user logged in and stores it
-@login_manager.user_loader
-def load_user(user_id):
-    # returns user_id from db
-    return BTUser.query.get(int(user_id))
-
 
 class RegisterForm(FlaskForm):
+    """
+    Register form from FlaskForm.
+    Allows the input data to be pulled from front
+    and have requirements.
+    """
+
     # creates username and password fields
     username = StringField(
         "Username",
@@ -99,7 +99,12 @@ class RegisterForm(FlaskForm):
 
 # class that uses FlaskForm for user to fill out to log in
 class LoginForm(FlaskForm):
-    # creates username and password fields
+    """
+    Login form created with FlaskForm.
+    This allows us to pass inputs/outputs
+    back and forth.
+    """
+
     username = StringField(
         "Username",
         validators=[
@@ -130,7 +135,6 @@ def index():
     """
     The index page of the app.
     """
-
     mock_data = {"your": "data here"}
     data = json.dumps(mock_data)
     return flask.render_template("index.html", data=data)
@@ -140,11 +144,15 @@ def index():
 # will have to be updated
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
+    """
+    The registration page of the app. Allows new users to
+    register for an account.
+    """
     form = RegisterForm()
 
     # checks the input to see if the username and password are valid
     if form.username.data is None:
-        flash("")
+        flash("Please enter a username")
     elif len(form.username.data) < 4:
         flash("Please enter a username that has more than 4 characters")
     elif len(form.username.data) > 20:
@@ -167,10 +175,12 @@ def registration():
     return render_template("registration.html", form=form)
 
 
-# NOTE user cannot be verified until DB is set up and conditional statements
-# will have to be updated
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    The login page of the app. Allows new users to
+    login with their account.
+    """
     form = LoginForm()
 
     # checks to see if both inputs are valid
