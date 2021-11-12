@@ -6,7 +6,6 @@ import os
 import json
 import flask
 from dotenv import load_dotenv, find_dotenv
-from database import db, BTUser
 from flask import render_template, url_for, redirect, flash
 from flask_login import (
     login_user,
@@ -22,6 +21,7 @@ from wtforms.validators import (
     ValidationError,
 )
 from flask_bcrypt import Bcrypt
+from database import db, BTUser
 
 
 load_dotenv(find_dotenv())
@@ -88,7 +88,11 @@ class RegisterForm(FlaskForm):
 
     # checks the data base to see if the same username exists in the db
     # if so, it tells the user to enter a new one
-    def validate_username(self, username):
+    @staticmethod
+    def validate_username(_, username):
+        """
+        Validated username by checking database
+        """
         existing_username = BTUser.query.filter_by(username=username.data).first()
         if existing_username:
             print("user already exists")
@@ -199,8 +203,6 @@ def login():
                 print("incorrect")
                 flash("Incorrect username or password")
                 return redirect(url_for("login"))
-        else:
-            flash("Incorrect username or password")
     return flask.render_template("login.html", form=form)
 
 
@@ -208,6 +210,9 @@ def login():
 @app.route("/logout", methods=["GET", "POST"])
 @login_required
 def logout():
+    """
+    Logs the user out.
+    """
     logout_user()
     return redirect(url_for("login"))
 
