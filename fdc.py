@@ -24,17 +24,25 @@ _SORT_VALUES = {
 class FDCResponseList(list):
     """Wrapper type for adding the success field to response lists."""
 
-    def __getitem__(self, i):
-        if i == "success":
+    def __getitem__(self, key):
+        """
+        Overrides the behavior for the square bracket operator on FDC response lists.
+        This enables checking for success via `response["success"]` on all response objects.
+        """
+        if key == "success":
             return True
 
-        return list.__getitem__(self, i)
+        return list.__getitem__(self, key)
 
-    def __contains__(self, o):
-        if o == "success":
+    def __contains__(self, item):
+        """
+        Overrides the behavior for the `in` operator on FDC response lists.
+        This enables the `"success" in response` check to be valid on all response objects.
+        """
+        if item == "success":
             return True
 
-        return list.__contains__(self, o)
+        return list.__contains__(self, item)
 
 
 def _response(raw):
