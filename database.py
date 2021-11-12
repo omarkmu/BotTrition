@@ -24,11 +24,11 @@ class BTUser(db.Model, UserMixin):
     # grabs the current user logged in and stores it
     @staticmethod
     @login_manager.user_loader
-    def load_user(self):
+    def load_user(id):
         """
         Returns the user ID from db
         """
-        return BTUser.query.get(int(self))
+        return BTUser.query.get(int(id))
 
 
 # So basically the Allergies and DietaryRestriction are multivalued so our user will have
