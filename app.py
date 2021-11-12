@@ -2,18 +2,17 @@
 The entry point of the BotTrition app.
 """
 
-import os, json, flask
+import os
+import json
+import flask
 from dotenv import load_dotenv, find_dotenv
 from database import db, BTUser
-from flask_wtf import FlaskForm
 from flask import render_template, url_for, redirect, flash
 from flask_login import (
-    UserMixin,
     login_user,
     LoginManager,
     login_required,
     logout_user,
-    current_user,
 )
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -62,10 +61,12 @@ login_manager.login_view = "login"
 # grabs the current user logged in and stores it
 @login_manager.user_loader
 def load_user(user_id):
+    # returns user_id from db
     return BTUser.query.get(int(user_id))
 
 
 class RegisterForm(FlaskForm):
+    # creates username and password fields
     username = StringField(
         "Username",
         validators=[
@@ -85,7 +86,8 @@ class RegisterForm(FlaskForm):
 
     submit = SubmitField("Register")
 
-    # checks the data base to see if the same username exists in the db, if so, it tells the user to enter a new one
+    # checks the data base to see if the same username exists in the db
+    # if so, it tells the user to enter a new one
     def validate_username(self, username):
         existing_username = BTUser.query.filter_by(username=username.data).first()
         if existing_username:
@@ -97,6 +99,7 @@ class RegisterForm(FlaskForm):
 
 # class that uses FlaskForm for user to fill out to log in
 class LoginForm(FlaskForm):
+    # creates username and password fields
     username = StringField(
         "Username",
         validators=[
@@ -140,7 +143,7 @@ def registration():
     form = RegisterForm()
 
     # checks the input to see if the username and password are valid
-    if form.username.data == None:
+    if form.username.data is None:
         flash("")
     elif len(form.username.data) < 4:
         flash("Please enter a username that has more than 4 characters")
@@ -154,8 +157,8 @@ def registration():
     # hashes password and stores it in the db
     if form.validate_on_submit():
         pw_hash = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        newUser = BTUser(username=form.username.data, password_hash=pw_hash)
-        db.session.add(newUser)
+        new_user = BTUser(username=form.username.data, password_hash=pw_hash)
+        db.session.add(new_user)
         db.session.commit()
         print("redirected")
         flash("Account Created!")
