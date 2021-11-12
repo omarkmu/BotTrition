@@ -21,6 +21,7 @@ from wtforms.validators import (
     ValidationError,
 )
 from flask_bcrypt import Bcrypt
+from database import Profile
 from database import db, BTUser
 
 
@@ -169,7 +170,9 @@ def registration():
     # hashes password and stores it in the db
     if form.validate_on_submit():
         pw_hash = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        new_user = BTUser(username=form.username.data, password_hash=pw_hash)
+        new_user = BTUser(
+            username=form.username.data, password_hash=pw_hash, profile=Profile()
+        )
         db.session.add(new_user)
         db.session.commit()
         print("redirected")
