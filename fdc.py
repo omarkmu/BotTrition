@@ -21,6 +21,16 @@ _SORT_VALUES = {
 }
 
 
+class FDCResponseList(list):
+    """Wrapper type for adding the success field to response lists."""
+
+    def __getitem__(self, i):
+        if i == "success":
+            return True
+
+        return list.__getitem__(self, i)
+
+
 def _response(raw):
     # returning an error object matching the API error style for request exceptions
     if isinstance(raw, RequestException):
@@ -28,6 +38,10 @@ def _response(raw):
             "success": False,
             "error": {"code": "REQUEST_EXCEPTION", "message": str(raw)},
         }
+
+    # ensuring the "success" field is always present
+    if isinstance(raw, list):
+        return FDCResponseList(raw)
 
     raw["success"] = "error" not in raw
     return raw
