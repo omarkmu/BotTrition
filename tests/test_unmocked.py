@@ -48,18 +48,31 @@ class TestFdcAPI(unittest.TestCase):
     def test_retrieve_food_with_nutrient_ids(self):
         """Retrieving a food with specific nutrient IDs returns only nutrients with those IDS."""
 
-        response = fdc.get_food_by_id(self.fdc_id1, nutrient_numbers=[301])
+        nutrient_numbers = [301, 401, 204]
+        response = fdc.get_food_by_id(self.fdc_id1, nutrient_numbers=nutrient_numbers)
 
         self.assertIn("success", response)
         self.assertEqual(response["success"], True)
 
         self.assertIn("foodNutrients", response)
-        self.assertEqual(len(response["foodNutrients"]), 1)
+        self.assertEqual(len(response["foodNutrients"]), 3)
 
-        self.assertIn("nutrient", response["foodNutrients"][0])
-        self.assertIn("number", response["foodNutrients"][0]["nutrient"])
+        for idx, nutrient in enumerate(response["foodNutrients"]):
+            self.assertIn("nutrient", nutrient)
+            self.assertIn("number", nutrient["nutrient"])
 
-        self.assertEqual(response["foodNutrients"][0]["nutrient"]["number"], "301")
+            self.assertEqual(nutrient["nutrient"]["number"], str(nutrient_numbers[idx]))
+
+    def test_retrieve_food_invalid_nutrient_id(self):
+        """Retrieving a food with an invalid nutrient ID returns zero nutrients."""
+
+        response = fdc.get_food_by_id(self.fdc_id1, nutrient_numbers=[-1])
+
+        self.assertIn("success", response)
+        self.assertEqual(response["success"], True)
+
+        self.assertIn("foodNutrients", response)
+        self.assertEqual(len(response["foodNutrients"]), 0)
 
     def test_retrieve_foods(self):
         """Retrieving multiple foods returns proper results"""
