@@ -25,6 +25,7 @@ class TestFdcAPI(unittest.TestCase):
 
         self.assertIn("fdcId", response)
         self.assertIn("description", response)
+        self.assertIn("ingredients", response)
         self.assertEqual(response["fdcId"], self.fdc_id1)
         self.assertEqual(response["description"], "CHEDDAR CHEESE")
 
@@ -52,6 +53,7 @@ class TestFdcAPI(unittest.TestCase):
         for idx, food in enumerate(response):
             self.assertIn("fdcId", food)
             self.assertIn("description", food)
+            self.assertIn("ingredients", food)
             self.assertIn("foodNutrients", food)
             self.assertEqual(food["fdcId"], ids[idx])
 
@@ -81,5 +83,6 @@ class TestFdcAPI(unittest.TestCase):
         for food in response["foods"]:
             self.assertIn("fdcId", food)
             self.assertIn("description", food)
+            self.assertIn("ingredients", food)
             self.assertIn("foodNutrients", food)
             self.assertEqual("cheese" in food["description"].lower(), True)
