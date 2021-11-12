@@ -5,22 +5,32 @@ the USDA FoodData Central (FDC) API.
 
 import json
 import requests
+from requests.exceptions import RequestException
 
+# the "dataType" parameter is intentionally excluded from the list and search
+# functions as a design decision; the "Branded" will be
+# the only acceptable data type, and will always be used as a filter.
+# The "brandOwner" parameter is also excluded from search, as it doesn't seem like
+# a feature we'll need. This can be easily added if necessary.
+_DATA_TYPES = ["Branded"]
 _FDC_URL = "https://api.nal.usda.gov/fdc/v1"  # base url of the FDC API
 _SECRETS = {"FDC_KEY": None}  # using a dict rather than a global variable
 _SORT_VALUES = {
     "dataType": "dataType.keyword",
     "description": "lowercaseDescription.keyword",
 }
-_DATA_TYPES = ["Branded", "Foundation"]
-# the "dataType" parameter is intentionally excluded from the list and search
-# functions as a design decision; the "Branded" and "Foundation"
-# types are the only types which include food nutrients, which
-# are an essential part of our app. Those two types will be
-# the only acceptable data types, and they will always be used as filters.
 
-# the "brandOwner" parameter is also excluded from search, as it doesn't seem like
-# a feature we'll need. This can be easily added if necessary.
+
+def _response(raw):
+    # returning an error object matching the API error style for request exceptions
+    if isinstance(raw, RequestException):
+        return {
+            "success": False,
+            "error": {"code": "REQUEST_EXCEPTION", "message": str(raw)},
+        }
+
+    raw["success"] = "error" not in raw
+    return raw
 
 
 def _get(endpoint, params=None):
@@ -35,10 +45,9 @@ def _get(endpoint, params=None):
     try:
         response = requests.get(url, params=params)
         response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as exc:
-        # returning an error object matching the API error style
-        return {"error": {"code": "REQUEST_EXCEPTION", "message": str(exc)}}
+        return _response(response.json())
+    except RequestException as exc:
+        return _response(exc)
 
 
 def _post(endpoint, data=None):
@@ -56,9 +65,9 @@ def _post(endpoint, data=None):
             headers={"Content-Type": "application/json"},
         )
         response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as exc:
-        return {"error": {"code": "REQUEST_EXCEPTION", "message": str(exc)}}
+        return _response(response.json())
+    except RequestException as exc:
+        return _response(exc)
 
 
 def _assign_search_info(data, page, per_page, sort, sort_direction):
