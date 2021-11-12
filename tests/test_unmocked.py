@@ -18,14 +18,30 @@ class TestFdcAPI(unittest.TestCase):
         self.fdc_id1 = 2057648  # cheddar cheese
         self.fdc_id2 = 534358  # nut n' berry mix
 
+    def test_invalid_food(self):
+        """Trying to retrieve an invalid food returns an error"""
+
+        response = fdc.get_food_by_id(-1)
+
+        self.assertIn("success", response)
+        self.assertIn("error", response)
+        self.assertIn("code", response["error"])
+        self.assertIn("message", response["error"])
+
+        self.assertEqual(response["success"], False)
+        self.assertEqual(response["error"]["code"], "REQUEST_EXCEPTION")
+
     def test_retrieve_food(self):
         """Retrieving a food by FDC ID returns proper results"""
 
         response = fdc.get_food_by_id(self.fdc_id1)
 
+        self.assertIn("success", response)
         self.assertIn("fdcId", response)
         self.assertIn("description", response)
         self.assertIn("ingredients", response)
+
+        self.assertEqual(response["success"], True)
         self.assertEqual(response["fdcId"], self.fdc_id1)
         self.assertEqual(response["description"], "CHEDDAR CHEESE")
 
@@ -33,6 +49,9 @@ class TestFdcAPI(unittest.TestCase):
         """Retrieving a food with specific nutrient IDs returns only nutrients with those IDS."""
 
         response = fdc.get_food_by_id(self.fdc_id1, nutrient_numbers=[301])
+
+        self.assertIn("success", response)
+        self.assertEqual(response["success"], True)
 
         self.assertIn("foodNutrients", response)
         self.assertEqual(len(response["foodNutrients"]), 1)
@@ -48,6 +67,9 @@ class TestFdcAPI(unittest.TestCase):
         ids = [self.fdc_id1, self.fdc_id2]
         response = fdc.get_foods(ids)
 
+        self.assertIn("success", response)
+        self.assertEqual(response["success"], True)
+
         self.assertEqual(len(response), 2)
 
         for idx, food in enumerate(response):
@@ -62,6 +84,9 @@ class TestFdcAPI(unittest.TestCase):
 
         response = fdc.list_foods(per_page=10)
 
+        self.assertIn("success", response)
+        self.assertEqual(response["success"], True)
+
         self.assertLessEqual(len(response), 10)
 
         for food in response:
@@ -73,6 +98,9 @@ class TestFdcAPI(unittest.TestCase):
         "Searching for foods with a search query returns results"
 
         response = fdc.search("cheddar cheese", per_page=10)
+
+        self.assertIn("success", response)
+        self.assertEqual(response["success"], True)
 
         self.assertLessEqual(len(response), 10)
         self.assertIn("totalHits", response)
