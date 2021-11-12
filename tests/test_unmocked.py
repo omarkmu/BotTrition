@@ -80,7 +80,7 @@ class TestFdcAPI(unittest.TestCase):
             self.assertEqual(food["fdcId"], ids[idx])
 
     def test_list_foods(self):
-        "Retrieving a list of foods returns results"
+        """Retrieving a list of foods returns results"""
 
         response = fdc.list_foods(per_page=10)
 
@@ -95,7 +95,7 @@ class TestFdcAPI(unittest.TestCase):
             self.assertIn("foodNutrients", food)
 
     def test_search_foods(self):
-        "Searching for foods with a search query returns results"
+        """Searching for foods with a search query returns results"""
 
         response = fdc.search("cheddar cheese", per_page=10)
 
