@@ -30,6 +30,12 @@ class FDCResponseList(list):
 
         return list.__getitem__(self, i)
 
+    def __contains__(self, o):
+        if o == "success":
+            return True
+
+        return list.__contains__(self, o)
+
 
 def _response(raw):
     # returning an error object matching the API error style for request exceptions
