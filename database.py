@@ -4,11 +4,12 @@ Contains definitions of database models.
 
 
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_manager
 
 db = SQLAlchemy()
 
 
-class BTUser(db.Model):
+class BTUser(db.Model, UserMixin):
     """Database model for BotTrition users."""
 
     __tablename__ = "btuser"
@@ -19,6 +20,15 @@ class BTUser(db.Model):
 
     restrictions = db.relationship("DietaryRestriction", backref="btuser")
     profile = db.relationship("Profile", backref="btuser", uselist=False)
+
+    # grabs the current user logged in and stores it
+    @staticmethod
+    @login_manager.user_loader
+    def load_user(user_id):
+        """
+        Returns the user ID from db
+        """
+        return BTUser.query.get(int(user_id))
 
 
 # So basically the Allergies and DietaryRestriction are multivalued so our user will have
