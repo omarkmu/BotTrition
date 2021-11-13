@@ -95,7 +95,7 @@ def login():
             # if passwords do not match, return error
             print("incorrect")
             flash("Incorrect username or password")
-            return redirect(url_for("login"))
+            return redirect(url_for("index"))
     return flask.render_template("login.html", form=form)
 
 
