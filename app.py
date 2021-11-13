@@ -5,124 +5,15 @@ The entry point of the BotTrition app.
 import os
 import json
 import flask
-from dotenv import load_dotenv, find_dotenv
 from flask import render_template, url_for, redirect, flash
 from flask_login import (
     login_user,
-    LoginManager,
     login_required,
     logout_user,
 )
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import (
-    DataRequired,
-    Length,
-    ValidationError,
-)
-from flask_bcrypt import Bcrypt
-from database import Profile
-from database import db, BTUser
-
-
-load_dotenv(find_dotenv())
-
-
-# Point SQLAlchemy to your Heroku database
-db_url = os.getenv("DATABASE_URL")
-if db_url is None:
-    raise Exception("DATABASE_URL environment variable is not set")
-if db_url.startswith("postgres://"):
-    db_url = db_url.replace("postgres://", "postgresql://", 1)
-
-app = flask.Flask(__name__, static_folder="./build/static")
-app.config["SQLALCHEMY_DATABASE_URI"] = db_url
-# Gets rid of a warning
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = os.getenv("secret_key")  # don't defraud my app ok?
-
-# it may be ideal to extract this and the above
-# setup to a separate file in the future
-db.init_app(app)
-with app.app_context():  # app context is required when using init_app
-    db.create_all()
-
-
-bp = flask.Blueprint("bp", __name__, template_folder="./build")
-app.register_blueprint(bp)
-
-# initializing bcrypt for password hashing
-bcrypt = Bcrypt(app)
-
-# initializing login_manager to keep track of a user when logged in
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
-
-
-class RegisterForm(FlaskForm):
-    """
-    Register form from FlaskForm.
-    Allows the input data to be pulled from front
-    and have requirements.
-    """
-
-    # creates username and password fields
-    username = StringField(
-        "Username",
-        validators=[
-            DataRequired(),
-            Length(min=4, max=20, message="Enter a valid username"),
-        ],
-        render_kw={"placeholder": "Enter username"},
-    )
-    password = PasswordField(
-        "Password",
-        validators=[
-            DataRequired(),
-            Length(min=4, max=20, message="Select a stronger password"),
-        ],
-        render_kw={"placeholder": "Enter password"},
-    )
-
-    submit = SubmitField("Register")
-
-    # checks the data base to see if the same username exists in the db
-    # if so, it tells the user to enter a new one
-    @staticmethod
-    def validate_username(_, username):
-        """
-        Validated username by checking database
-        """
-        existing_username = BTUser.query.filter_by(username=username.data).first()
-        if existing_username:
-            print("user already exists")
-            raise ValidationError(
-                "That username has already been taken. Please try again."
-            )
-
-
-# class that uses FlaskForm for user to fill out to log in
-class LoginForm(FlaskForm):
-    """
-    Login form created with FlaskForm.
-    This allows us to pass inputs/outputs
-    back and forth.
-    """
-
-    username = StringField(
-        "Username",
-        validators=[
-            DataRequired(),
-        ],
-        render_kw={"placeholder": "Username"},
-    )
-    password = PasswordField(
-        "Password",
-        validators=[DataRequired()],
-        render_kw={"placeholder": "Password"},
-    )
-    submit = SubmitField("Login")
+from setup import app, bcrypt
+from database import db, BTUser, Profile
+from forms import LoginForm, RegisterForm
 
 
 @app.route("/", methods=["GET", "POST"])
