@@ -7,7 +7,7 @@ import flask
 from dotenv import load_dotenv, find_dotenv
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
-from database import db
+from database import db, BTUser
 
 
 load_dotenv(find_dotenv())
@@ -40,3 +40,12 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+# grabs the current user logged in and stores it
+@login_manager.user_loader
+def load_user(user_id):
+    """
+    Returns the user associated with an ID from the database.
+    """
+
+    return BTUser.query.get(int(user_id))
