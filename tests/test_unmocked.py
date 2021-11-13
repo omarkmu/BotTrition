@@ -5,16 +5,15 @@ Handles unmocked testing.
 import os
 import unittest
 from dotenv import load_dotenv
-import fdc  # pylint: disable=import-error
 
 load_dotenv()
-fdc.set_key(os.getenv("FDC_KEY"))
 
 
 class TestFdcAPI(unittest.TestCase):
     """Contains test cases for the FoodData Central API."""
 
     def setUp(self):
+        fdc.set_key(os.getenv("FDC_KEY"))
         self.fdc_id1 = 2057648  # cheddar cheese
         self.fdc_id2 = 534358  # nut n' berry mix
 
@@ -127,3 +126,19 @@ class TestFdcAPI(unittest.TestCase):
             self.assertIn("ingredients", food)
             self.assertIn("foodNutrients", food)
             self.assertEqual("cheese" in food["description"].lower(), True)
+
+
+# ensures that the file can be run both directly and via unittest
+if __name__ == "__main__":
+    import sys
+    import inspect
+
+    file_path = os.path.abspath(inspect.getfile(inspect.currentframe()))
+    current_dir = os.path.dirname(file_path)
+    sys.path.insert(0, os.path.dirname(current_dir))
+
+    import fdc  # pylint: disable=import-error
+
+    unittest.main()
+else:
+    import fdc  # pylint: disable=import-error
