@@ -17,9 +17,9 @@ jobs:
         python-version: 3.9
     # Uses https://github.com/cclauss/autoblack to autoformat with black
     - name: Install black
-        run: pip install black
+      run: pip install black
     - name: Check formatting
-        run: black --check .
+      run: black --check .
     - name: Run black
       if: failure()
       run: |
