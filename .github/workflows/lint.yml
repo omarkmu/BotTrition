@@ -1,14 +1,10 @@
 name: Lint
 
 on:
-  push:
+  workflow_run:
+    workflows: [Format]
     branches: [main]
-    paths:
-      - '**/*.py'
-      - '**/*.js'
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
+    types: [completed]
 
 jobs:
   pylint:
