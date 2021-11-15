@@ -15,6 +15,8 @@ from setup import app, bcrypt
 from database import db, BTUser, Profile
 from forms import LoginForm, RegisterForm
 
+bp = flask.Blueprint("bp", __name__, template_folder="./build")
+
 
 @app.route("/", methods=["GET", "POST"])
 @login_required
@@ -91,7 +93,7 @@ def login():
             if bcrypt.check_password_hash(db_user.password_hash, form.password.data):
                 print("valid password")
                 login_user(db_user)
-                return flask.redirect(flask.url_for("index"))
+                return flask.redirect(flask.url_for("bp.index"))
             # if passwords do not match, return error
             print("incorrect")
             flash("Incorrect username or password")
