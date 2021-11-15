@@ -25,10 +25,12 @@ jobs:
       run: |
         python -m unittest discover -s ./tests -v
     - uses: actions/checkout@v2
-    - name: Use Node.js
+    - name: Npm test
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
     - run: npm install
     - run: npm run build --if-present
     - run: npm test
+    - name: Run unit test for npm
+      run: npm install --save-dev @testing-library/react
