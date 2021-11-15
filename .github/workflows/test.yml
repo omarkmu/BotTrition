@@ -24,10 +24,10 @@ jobs:
         FDC_KEY: ${{ secrets.FDC_KEY }} 
       run: |
         python -m unittest discover -s ./tests -v
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
       - run: npm install
       - run: npm run build --if-present
       - run: npm test
