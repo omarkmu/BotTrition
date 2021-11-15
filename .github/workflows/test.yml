@@ -24,6 +24,7 @@ jobs:
         FDC_KEY: ${{ secrets.FDC_KEY }} 
       run: |
         python -m unittest discover -s ./tests -v
+        
     - uses: actions/checkout@v2
     - name: Npm test
       uses: actions/setup-node@v1
