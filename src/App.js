@@ -16,8 +16,6 @@ export default function App() {
   };
 
   function handleSubmit() {
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify({ food_Input: food }));
     fetch('/api/search', {
       method: 'POST',
       headers: {
@@ -28,10 +26,10 @@ export default function App() {
 
       .then((json) => {
         if ('error' in json) {
-        // TODO: handle error checking here
+          // TODO: handle error checking here
         }
         if ('foods' in json) {
-        // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console
           console.log(json);
           setFoodsValue(json.foods);
         }
