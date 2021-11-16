@@ -93,7 +93,7 @@ def login():
             if bcrypt.check_password_hash(db_user.password_hash, form.password.data):
                 print("valid password")
                 login_user(db_user)
-                return flask.redirect(flask.url_for("bp.index"))
+                return flask.redirect(flask.url_for("index"))
             # if passwords do not match, return error
             print("incorrect")
             flash("Incorrect username or password")
@@ -114,6 +114,6 @@ def logout():
 
 if __name__ == "__main__":
     app.run(
-        #host=os.getenv("HOST", "0.0.0.0"), port=int(os.getenv("PORT", 8080)),
+        # host=os.getenv("HOST", "0.0.0.0"), port=int(os.getenv("PORT", 8080)),
         debug=True
     )

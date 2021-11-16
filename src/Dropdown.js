@@ -9,17 +9,21 @@ import {
 } from './styles';
 
 export function Dropdown(props) {
+  const {
+    action, formLabel, children, buttonText,
+  } = props;
   return (
-    <DropdownWrapper action={props.action}>
-      <StyledLabel htmlFor="services">{props.formLabel}</StyledLabel>
+    <DropdownWrapper action={action}>
+      <StyledLabel htmlFor="services">{formLabel}</StyledLabel>
       <StyledSelect id="services" name="services">
-        {props.children}
+        {children}
       </StyledSelect>
-      <StyledButton type="submit" value={props.buttonText} />
+      <StyledButton type="submit" value={buttonText} />
     </DropdownWrapper>
   );
 }
 
 export function Option(props) {
-  return <StyledOption selected={props.selected}>{props.value}</StyledOption>;
+  const { selected, value } = props;
+  return <StyledOption selected={selected}>{value}</StyledOption>;
 }
