@@ -8,10 +8,12 @@ from dotenv import load_dotenv, find_dotenv
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from database import db, BTUser
+from fdc import set_key
 
 
 load_dotenv(find_dotenv())
 
+set_key(os.getenv("FDC_KEY"))
 
 # Point SQLAlchemy to the Heroku database
 db_url = os.getenv("DATABASE_URL")
