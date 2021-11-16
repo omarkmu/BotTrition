@@ -1,0 +1,26 @@
+# https://github.com/cclauss/autoblack
+
+name: autoblack_pull_request
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-python@v2
+      - name: Install black
+        run: pip install black
+      - name: Check formatting
+        run: black --check .
+      - name: Run black
+        if: failure()
+        run: |
+          git config --global user.name 'autoblack'
+          git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'        
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git branch
+          black .
+          git commit -am "style: Applied Black formatting"
+          git push
