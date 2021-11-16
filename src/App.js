@@ -6,6 +6,7 @@ import { Dropdown, Option } from './Dropdown';
 export default function App() {
   const [optionValue, setOptionValue] = useState('');
   const [food, setFoodValue] = useState('');
+  const [foods, setFoodsValue] = useState([]);
 
   const handleSelect = (e) => {
     setOptionValue(e.target.value);
@@ -25,8 +26,16 @@ export default function App() {
       body: JSON.stringify({ food_input: food }),
     }).then((response) => response.json())
 
-      // eslint-disable-next-line no-console
-      .then((json) => console.log(json));
+      .then((json) => {
+        if ('error' in json) {
+        // TODO: handle error checking here
+        }
+        if ('foods' in json) {
+        // eslint-disable-next-line no-console
+          console.log(json);
+          setFoodsValue(json.foods);
+        }
+      });
   }
 
   return (
@@ -55,7 +64,10 @@ export default function App() {
         value={food}
         onChange={handleChange}
       />
-      <button type="submit" onClick={handleSubmit}>Send it!</button>
+      <button type="submit" onClick={handleSubmit}>Submit</button>
+      <p>
+        {foods.map((elem) => <li>{elem.description}</li>)}
+      </p>
     </div>
   );
 }
