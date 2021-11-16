@@ -15,21 +15,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    # Uses https://github.com/cclauss/autoblack to autoformat with black
-    - name: Install black
-      run: pip install black
-    - name: Check formatting
-      run: black --check .
-    - name: Run black
-      if: failure()
-      run: |
-        black .
-        git config --global user.name 'autoblack'
-        git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-        git checkout $GITHUB_HEAD_REF
-        git commit -am "style: Applied Black formatting"
-        git push
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
