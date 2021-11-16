@@ -9,10 +9,10 @@ import {
 
 export function Dropdown(props) {
   const {
-    action, formLabel, children, buttonText,
+    action, formLabel, children, buttonText, onChange,
   } = props;
   return (
-    <DropdownWrapper action={action}>
+    <DropdownWrapper action={action} onChange={onChange}>
       <StyledLabel htmlFor="services">{formLabel}</StyledLabel>
       <StyledSelect id="services" name="services">
         {children}

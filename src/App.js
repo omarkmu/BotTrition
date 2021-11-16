@@ -4,7 +4,7 @@ import { Dropdown, Option } from './Dropdown';
 // This component will handle the diet lookup feature which will direct user to
 // the best overall Diets.
 export default function App() {
-  const [setOptionValue] = useState('');
+  const [optionValue, setOptionValue] = useState('');
   const [food, setFoodValue] = useState('');
 
   const handleSelect = (e) => {
@@ -45,6 +45,11 @@ export default function App() {
         <Option value="Mayo Clinic Diet" />
         <Option value="The MIND Diet" />
       </Dropdown>
+      <p>
+        You Selected
+        {' '}
+        {optionValue}
+      </p>
       <input
         type="text"
         value={food}
