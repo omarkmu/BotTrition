@@ -1,13 +1,28 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <!--  
-  <style>
-   body {
-  # Uncomment to add CSS Styling
+    <style>
+        body {
+            font-family: Verdana;
+            background-color: #8BAAAD;
+            font: Verdana;
         }
-   </style>
-   -->
+
+        .container {
+            max-width: 650px;
+            text-align: center;
+            margin: 1rem auto;
+            overflow: auto;
+            padding: 0px;
+        }
+
+        input:valid+span:after {
+            position: absolute;
+            content: '✓';
+            padding-left: 5px;
+        }
+    </style>
 </head>
 
 <!-- Added An HTML Page So User Can Visit A Profile Page Before Main App Page.
@@ -18,10 +33,29 @@
          And Displayed -->
 
 <body>
-    <h1>Profile Page</h1>
-    <a href="/index">
-        <button>View Main Page</button>
-    </a>
+    <div class='container'>
+        <h1>Profile Page</h1>
+        <a href="/index">
+            <div class='container'>
+                <button>View Main Page</button>
+            </div>
+        </a>
+        <form method="post" action="">
+            {{ form.hidden_tag() }}
+            Gender:
+            {{ form.gender }}
+            Height:
+            {{ form.heightFeet }}
+            {{ form.heightInches }}
+            <br></br>
+            Weight:
+            {{ form.weight }}
+            Birthdate:
+            {{ form.birthdate }}
+            <br></br>
+            {{ form.submit }}
+        </form>
+    </div>
 </body>
 
 </html>
