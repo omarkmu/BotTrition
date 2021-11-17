@@ -16,10 +16,6 @@ from database import db, BTUser, Profile
 from forms import LoginForm, RegisterForm
 from fdc import search
 
-
-bp = flask.Blueprint("bp", __name__, template_folder="./build")
-
-
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def main():
