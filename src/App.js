@@ -57,10 +57,11 @@ export default function App() {
       </p>
       <input
         type="text"
+        placeholder="Search..."
         value={food}
         onChange={handleChange}
       />
-      <button type="submit" onClick={handleSubmit}>Submit</button>
+      <button type="submit" onClick={handleSubmit}>Search</button>
       <p>
         {foods.map((elem) => <li>{elem.description}</li>)}
       </p>
