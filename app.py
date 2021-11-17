@@ -16,6 +16,7 @@ from database import db, BTUser, Profile
 from forms import LoginForm, RegisterForm
 from fdc import search
 
+
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def main():
