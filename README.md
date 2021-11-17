@@ -2,7 +2,7 @@
 
 A website that allows users to calculate their BMI and search for
 information about foods and diets. You can view the project hosted on
-[Heroku](https://heroku.com/) at https://bottrition.herokuapp.com.
+[Heroku](https://heroku.com/) at https://bottrition-sprint1.herokuapp.com.
 
 This project utilizes the
 USDA [FDC database](https://fdc.nal.usda.gov/api-key-signup.html)
