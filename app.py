@@ -13,7 +13,7 @@ from flask_login import (
 )
 from setup import app, bcrypt
 from database import db, BTUser, Profile
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, ProfileForm
 from fdc import search
 
 
@@ -35,6 +35,40 @@ def index():
     mock_data = {"your": "data here"}
     data = json.dumps(mock_data)
     return flask.render_template("index.html", data=data)
+
+
+@app.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    """
+    The profile page of the app.
+    """
+    form = ProfileForm()
+
+    height_feet = form.height_feet.data
+    height_inches = form.height_inches.data
+
+    print(form.birthdate.data)
+    print(form.gender.data)
+    print(form.height_feet.data)
+    print(form.height_inches.data)
+    if height_feet is not None:
+        height = (int(height_feet) * 12) + int(height_inches)
+        print(height)
+
+    if form.validate_on_submit():
+        user_profile = Profile(
+            gender=form.gender.data,
+            height=height,
+            weight=form.weight.data,
+        )
+        db.session.add(user_profile)
+        db.session.commit()
+        print("User updated")
+        flash("Profile Updated!")
+        return redirect(url_for("profile"))
+
+    return render_template("profile.html", form=form)
 
 
 # NOTE user cannot be verified until DB is set up and conditional statements
