@@ -23,7 +23,7 @@ def main():
     """
     The main landing page that is shown when the app is launced.
     """
-    return flask.render_template("profile.html")
+    return flask.render_template("index.html")
 
 
 @app.route("/index", methods=["GET", "POST"])
