@@ -1,6 +1,6 @@
 # BotTrition
 
-A website which allows users to calculate their BMI and search for
+A website that allows users to calculate their BMI and search for
 information about foods and diets. You can view the project hosted on
 [Heroku](https://heroku.com/) at https://bottrition.herokuapp.com.
 
@@ -60,6 +60,5 @@ which required repeating function names: `const App = function App() { ... }`.
 - `react/prop-types`: This rule was ignored because strict prop typing is not
 necessary for our project.
 - `linebreak-style`: This rule was ignored because the core.autocrlf config
-setting of git was causing code to suddenly break after passing linter checks.
-This was occurring because the CRLF line endings were replaced by LF
-line endings.
+setting of git was causing code to suddenly break after passing linter checks due to
+the replacement of CRLF line endings by LF line endings.
