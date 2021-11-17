@@ -1,17 +1,69 @@
-import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
+import { Dropdown, Option } from './Dropdown';
 
-function App() {
-  // fetches JSON data passed in by flask.render_template and loaded
-  // in public/index.html in the script with id "data"
-  // const args = JSON.parse(document.getElementById("data").text);
+// This component will handle the diet lookup feature which will direct user to
+// the best overall Diets.
+export default function App() {
+  const [optionValue, setOptionValue] = useState('');
+  const [food, setFoodValue] = useState('');
+  const [foods, setFoodsValue] = useState([]);
 
-  // This main page will be further designed with react components
-  // so the user can interact with the main app page. Some Data will also
-  // be present for viewing when user lands on this page.
+  const handleSelect = (e) => {
+    setOptionValue(e.target.value);
+  };
+  const handleChange = (e) => {
+    setFoodValue(e.target.value);
+  };
+
+  function handleSubmit() {
+    fetch('/api/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ food_input: food }),
+    }).then((response) => response.json())
+
+      .then((json) => {
+        if ('error' in json) {
+          // TODO: handle error checking here
+        }
+        if ('foods' in json) {
+          // eslint-disable-next-line no-console
+          console.log(json);
+          setFoodsValue(json.foods);
+        }
+      });
+  }
+
   return (
-    <h1> ! Welcome To Main App Page User !</h1>
+    <div>
+      <h1> Find Out Best Overall Diets</h1>
+      <Dropdown
+        buttonText="Submit"
+        onChange={handleSelect}
+        action="https://health.usnews.com/best-diet/best-diets-overall"
+      >
+        <Option value="Click to see options" />
+        <Option value="Mediterranean Diet" />
+        <Option value="DASH Diet" />
+        <Option value="The Flexitarian Diet" />
+        <Option value="Weight Watchers Diet" />
+        <Option value="Mayo Clinic Diet" />
+        <Option value="The MIND Diet" />
+      </Dropdown>
+      <p>
+        {`You Selected ${optionValue}`}
+      </p>
+      <input
+        type="text"
+        value={food}
+        onChange={handleChange}
+      />
+      <button type="submit" onClick={handleSubmit}>Submit</button>
+      <p>
+        {foods.map((elem) => <li>{elem.description}</li>)}
+      </p>
+    </div>
   );
 }
-
-export default App;

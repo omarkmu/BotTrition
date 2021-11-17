@@ -14,6 +14,7 @@ from flask_login import (
 from setup import app, bcrypt
 from database import db, BTUser, Profile
 from forms import LoginForm, RegisterForm
+from fdc import search
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -97,6 +98,17 @@ def login():
             flash("Incorrect username or password")
             return redirect(url_for("index"))
     return flask.render_template("login.html", form=form)
+
+
+@app.route("/api/search", methods=["GET", "POST"])
+def api():
+    """
+    The search route to handle search requests for the main
+    app page.Allows users to view food data from the USDA API.
+    """
+    food_input = flask.request.json.get("food_input")
+    output = search(food_input)
+    return flask.jsonify(output)
 
 
 # logs user out
