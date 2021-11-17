@@ -3,7 +3,14 @@ Contains definitions of Flask form validators.
 """
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import (
+    StringField,
+    PasswordField,
+    SubmitField,
+    SelectField,
+    DecimalField,
+    DateField,
+)
 from wtforms.validators import (
     DataRequired,
     Length,
@@ -75,3 +82,72 @@ class LoginForm(FlaskForm):
         render_kw={"placeholder": "Password"},
     )
     submit = SubmitField("Login")
+
+
+# class that uses flaskform for the profile page
+class ProfileForm(FlaskForm):
+    """
+    Profile page where user can enter
+    their personal information for the
+    app to use.
+    """
+
+    gender = SelectField(
+        "Gender",
+        choices=[("male", "Male"), ("female", "Female"), ("other", "Other")],
+        validators=[
+            DataRequired(),
+        ],
+        render_kw={"placeholder": "Gender (Male/Female)"},
+    )
+
+    height_feet = SelectField(
+        "Height (ft)",
+        choices=[("4", "4'"), ("5", "5'"), ("6", "6'"), ("7", "7'")],
+        validators=[
+            DataRequired(),
+        ],
+        coerce=int,
+        render_kw={"placeholder": "Height (ft)"},
+    )
+
+    height_inches = SelectField(
+        "Height (in)",
+        choices=[
+            ("1", '1"'),
+            ("2", '2"'),
+            ("3", '3"'),
+            ("4", '4"'),
+            ("5", '5"'),
+            ("6", '6"'),
+            ("7", '7"'),
+            ("8", '8"'),
+            ("9", '9"'),
+            ("10", '10"'),
+            ("11", '11"'),
+        ],
+        coerce=int,
+        validators=[
+            DataRequired(),
+        ],
+        render_kw={"placeholder": "Height (in)"},
+    )
+
+    weight = DecimalField(
+        "Weight",
+        validators=[
+            DataRequired(),
+        ],
+        render_kw={"placeholder": "Weight"},
+    )
+
+    birthdate = DateField(
+        "Birthdate",
+        format="%m/%d/%Y",
+        validators=[
+            DataRequired(),
+        ],
+        render_kw={"placeholder": "ex. 6/20/15"},
+    )
+
+    submit = SubmitField("Save Information")
