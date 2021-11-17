@@ -53,7 +53,7 @@ export default function App() {
         <Option value="The MIND Diet" />
       </Dropdown>
       <p>
-        {`You Selected ${optionValue}`}
+        {`You selected ${optionValue}`}
       </p>
       <input
         type="text"
