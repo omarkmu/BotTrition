@@ -24,3 +24,13 @@ jobs:
         FDC_KEY: ${{ secrets.FDC_KEY }} 
       run: |
         python -m unittest discover -s ./tests -v
+  react:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        npm install
+        npm run build
+    - name: Run react tests
+      run: npm run test
