@@ -41,6 +41,19 @@ class Profile(db.Model):
     birth_month = db.Column(db.Integer)
     birth_year = db.Column(db.Integer)
 
+    @property
+    def json(self):
+        """Returns the user profile data as a JSON serializable dict."""
+        return {
+            "gender": self.gender,
+            "height": self.height,
+            "weight": self.weight,
+            "birth_day": self.birth_day,
+            "birth_month": self.birth_month,
+            "birth_year": self.birth_year,
+            "birth_date": f"{self.birth_year}-{self.birth_month}-{self.birth_day}",
+        }
+
 
 class DietaryRestriction(db.Model):
     """Database model for BotTrition users' dietary restrictions."""

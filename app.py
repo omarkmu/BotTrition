@@ -4,7 +4,7 @@ The entry point of the BotTrition app.
 
 import os
 import flask
-from flask import render_template, flash
+from flask import flash
 from flask_login import current_user, login_user, login_required, logout_user
 from setup import app, bcrypt, csrf
 from database import db, BTUser, Profile
@@ -33,7 +33,7 @@ def main():
     The main landing page that is shown when the app is launced.
     """
     if current_user.is_authenticated:  # avoid "must login" message
-    return redirect("index")
+        return redirect("index")
     return redirect("login")
 
 
@@ -43,7 +43,7 @@ def index():
     """
     The index page of the app.
     """
-    # left this here because we may need it for favorites
+    # NOTE: left this here because we may need it for favorites
     data = {"your": "data here"}
     return render(data=data)
 
@@ -54,32 +54,36 @@ def profile():
     """
     The profile page of the app.
     """
+
+    if flask.request.method == "GET":
+        return render(data=current_user.profile.json)
+
     form = ProfileForm()
 
-    height_feet = form.height_feet.data
-    height_inches = form.height_inches.data
-
-    print(form.birthdate.data)
-    print(form.gender.data)
-    print(form.height_feet.data)
-    print(form.height_inches.data)
-    if height_feet is not None:
-        height = (int(height_feet) * 12) + int(height_inches)
-        print(height)
-
     if form.validate_on_submit():
-        user_profile = Profile(
+        height_feet = form.height_feet.data or 0
+        height_inches = form.height_inches.data or 0
+
+        for existing_profile in Profile.query.filter_by(user_id=current_user.id):
+            db.session.delete(existing_profile)
+
+        updated_profile = Profile(
+            user_id=current_user.id,
             gender=form.gender.data,
-            height=height,
+            height=height_feet * 12 + height_inches,
             weight=form.weight.data,
+            birth_year=form.birthdate.data.year,
+            birth_month=form.birthdate.data.month,
+            birth_day=form.birthdate.data.day,
         )
-        db.session.add(user_profile)
+
+        db.session.add(updated_profile)
         db.session.commit()
-        print("User updated")
+
         flash("Profile Updated!")
         return redirect("profile")
 
-    return render_template("profile.html", form=form)
+    return render(form=form)
 
 
 # NOTE user cannot be verified until DB is set up and conditional statements
@@ -90,6 +94,10 @@ def registration():
     The registration page of the app. Allows new users to
     register for an account.
     """
+
+    if flask.request.method == "GET":
+        return render()
+
     form = RegisterForm()
 
     # checks the input to see if the username and password are valid
@@ -124,6 +132,10 @@ def login():
     The login page of the app. Allows new users to
     login with their account.
     """
+
+    if flask.request.method == "GET":
+        return render()
+
     form = LoginForm()
 
     # checks to see if both inputs are valid

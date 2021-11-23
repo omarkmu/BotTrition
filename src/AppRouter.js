@@ -1,6 +1,7 @@
 import React from 'react';
 import App from './App';
 import Login from './Login';
+import Profile from './Profile';
 import Registration from './Registration';
 
 export default function AppRouter() {
@@ -22,6 +23,9 @@ export default function AppRouter() {
       break;
     case 'registration':
       Page = Registration;
+      break;
+    case 'profile':
+      Page = Profile;
       break;
     default:
       throw new Error('unreachable');
