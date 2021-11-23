@@ -7,6 +7,7 @@ import flask
 from dotenv import load_dotenv, find_dotenv
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+from flask_wtf.csrf import CSRFProtect
 from database import db, BTUser
 from fdc import set_key
 
@@ -37,6 +38,9 @@ app.register_blueprint(bp)
 
 # initializing bcrypt for password hashing
 bcrypt = Bcrypt(app)
+
+# enables CSRF protection globally
+csrf = CSRFProtect(app)
 
 # initializing login_manager to keep track of a user when logged in
 login_manager = LoginManager()

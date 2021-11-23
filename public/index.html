@@ -24,11 +24,13 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-    
+    <title>BotTrition</title>
+
   </head>
   <body>
-    <script id="data" type="application/json">{{data|safe}}</script>
+    <script id="csrf_token" type="text">{{ csrf_token() }}</script>
+    <script id="data" type="application/json">{{ data|safe }}</script>
+    <script id="flashes" type="application/json">{{ get_flashed_messages()|tojson|safe }}</script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

@@ -5,16 +5,30 @@ The entry point of the BotTrition app.
 import os
 import json
 import flask
-from flask import render_template, url_for, redirect, flash
-from flask_login import (
-    login_user,
-    login_required,
-    logout_user,
-)
-from setup import app, bcrypt
+from flask import render_template, flash
+from flask_login import login_user, login_required, logout_user
+from setup import app, bcrypt, csrf
 from database import db, BTUser, Profile
 from forms import LoginForm, RegisterForm, ProfileForm
 from fdc import search
+
+
+def render(**kwargs):
+    """
+    Renders the page that handles routing on the frontend.
+    """
+
+    if kwargs.get("data") is not None:
+        kwargs["data"] = json.dumps(kwargs["data"])
+
+    return flask.render_template("index.html", **kwargs)
+
+
+def redirect(route):
+    """
+    Handles redirection to a route.
+    """
+    return flask.redirect(flask.url_for(route))
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -23,7 +37,7 @@ def main():
     """
     The main landing page that is shown when the app is launced.
     """
-    return flask.render_template("index.html")
+    return redirect("index")
 
 
 @app.route("/index", methods=["GET", "POST"])
@@ -32,9 +46,9 @@ def index():
     """
     The index page of the app.
     """
-    mock_data = {"your": "data here"}
-    data = json.dumps(mock_data)
-    return flask.render_template("index.html", data=data)
+    # left this here because we may need it for favorites
+    data = {"your": "data here"}
+    return render(data=data)
 
 
 @app.route("/profile", methods=["GET", "POST"])
@@ -66,7 +80,7 @@ def profile():
         db.session.commit()
         print("User updated")
         flash("Profile Updated!")
-        return redirect(url_for("profile"))
+        return redirect("profile")
 
     return render_template("profile.html", form=form)
 
@@ -103,7 +117,7 @@ def registration():
         db.session.commit()
         print("redirected")
         flash("Account Created!")
-        return redirect(url_for("login"))
+        return redirect("login")
 
     return render_template("registration.html", form=form)
 
@@ -126,20 +140,25 @@ def login():
             if bcrypt.check_password_hash(db_user.password_hash, form.password.data):
                 print("valid password")
                 login_user(db_user)
-                return flask.redirect(flask.url_for("index"))
+                return redirect("index")
             # if passwords do not match, return error
             print("incorrect")
             flash("Incorrect username or password")
-            return redirect(url_for("index"))
-    return flask.render_template("login.html", form=form)
+            return redirect("index")
+
+    return render()
 
 
 @app.route("/api/search", methods=["GET", "POST"])
+@csrf.exempt  # fixes the "bad request" error
 def api():
     """
     The search route to handle search requests for the main
     app page.Allows users to view food data from the USDA API.
     """
+    if flask.request.json is None:
+        return flask.jsonify({"error": "invalid request"})
+
     food_input = flask.request.json.get("food_input")
     output = search(food_input)
     return flask.jsonify(output)
@@ -153,7 +172,7 @@ def logout():
     Logs the user out.
     """
     logout_user()
-    return redirect(url_for("login"))
+    return redirect("login")
 
 
 if __name__ == "__main__":
