@@ -3,10 +3,9 @@ The entry point of the BotTrition app.
 """
 
 import os
-import json
 import flask
 from flask import render_template, flash
-from flask_login import login_user, login_required, logout_user
+from flask_login import current_user, login_user, login_required, logout_user
 from setup import app, bcrypt, csrf
 from database import db, BTUser, Profile
 from forms import LoginForm, RegisterForm, ProfileForm
@@ -18,9 +17,6 @@ def render(**kwargs):
     Renders the page that handles routing on the frontend.
     """
 
-    if kwargs.get("data") is not None:
-        kwargs["data"] = json.dumps(kwargs["data"])
-
     return flask.render_template("index.html", **kwargs)
 
 
@@ -31,16 +27,17 @@ def redirect(route):
     return flask.redirect(flask.url_for(route))
 
 
-@app.route("/", methods=["GET", "POST"])
-@login_required
+@app.route("/")
 def main():
     """
     The main landing page that is shown when the app is launced.
     """
+    if current_user.is_authenticated:  # avoid "must login" message
     return redirect("index")
+    return redirect("login")
 
 
-@app.route("/index", methods=["GET", "POST"])
+@app.route("/index")
 @login_required
 def index():
     """
@@ -115,11 +112,10 @@ def registration():
         )
         db.session.add(new_user)
         db.session.commit()
-        print("redirected")
         flash("Account Created!")
         return redirect("login")
 
-    return render_template("registration.html", form=form)
+    return render(form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -133,23 +129,20 @@ def login():
     # checks to see if both inputs are valid
     if form.validate_on_submit():
         db_user = BTUser.query.filter_by(username=form.username.data).first()
-        print("user entered both values")
         # checks to see if user is valid
         if db_user:
             # checks to see if passwords match
             if bcrypt.check_password_hash(db_user.password_hash, form.password.data):
-                print("valid password")
                 login_user(db_user)
                 return redirect("index")
             # if passwords do not match, return error
-            print("incorrect")
             flash("Incorrect username or password")
             return redirect("index")
 
-    return render()
+    return render(form=form)
 
 
-@app.route("/api/search", methods=["GET", "POST"])
+@app.route("/api/search", methods=["POST"])
 @csrf.exempt  # fixes the "bad request" error
 def api():
     """
@@ -164,7 +157,6 @@ def api():
     return flask.jsonify(output)
 
 
-# logs user out
 @app.route("/logout", methods=["GET", "POST"])
 @login_required
 def logout():

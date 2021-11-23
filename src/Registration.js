@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Flashes from './Flashes';
 
-export default function Login(props) {
+export default function Registration(props) {
   const {
     csrfToken,
     flashes,
@@ -11,13 +11,13 @@ export default function Login(props) {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    document.title = 'Login – BotTrition';
+    document.title = 'Register – BotTrition';
   });
 
   return (
     <>
       <div className="container">
-        <h1>Log In</h1>
+        <h1>Sign Up</h1>
         <form method="post">
           <input type="hidden" name="csrf_token" value={csrfToken} />
 
@@ -48,10 +48,10 @@ export default function Login(props) {
       <Flashes flashes={flashes} />
 
       <div className="container">
-        Don&apos;t have an account? Register
+        Already have an account? Log in
         {' '}
         {/* TODO: replace this with a React Router Link */}
-        <a href="/registration">here</a>
+        <a href="/login">here</a>
         .
       </div>
     </>

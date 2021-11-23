@@ -29,8 +29,21 @@
   </head>
   <body>
     <script id="csrf_token" type="text">{{ csrf_token() }}</script>
-    <script id="data" type="application/json">{{ data|safe }}</script>
+    <script id="data" type="application/json">
+      {%- if data %}
+        {{ data|tojson|safe }}
+      {% else %}
+        {}
+      {% endif %}
+    </script>
     <script id="flashes" type="application/json">{{ get_flashed_messages()|tojson|safe }}</script>
+    <script id="formErrors" type="application/json">
+      {%- if form and form.errors %}
+        {{ form.errors|tojson|safe }}
+      {% else %}
+        {}
+      {% endif %}
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

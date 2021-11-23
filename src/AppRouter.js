@@ -1,13 +1,13 @@
 import React from 'react';
 import App from './App';
 import Login from './Login';
+import Registration from './Registration';
 
 export default function AppRouter() {
-  const dataText = document.getElementById('data').text;
-
   // read information sent from flask
-  const data = dataText && dataText.length > 0 ? JSON.parse(dataText) : {};
+  const data = JSON.parse(document.getElementById('data').text);
   const flashes = JSON.parse(document.getElementById('flashes').text);
+  const formErrors = JSON.parse(document.getElementById('formErrors').text);
   const csrfToken = document.getElementById('csrf_token').text;
 
   // temporary solution; should be replaced with React Router
@@ -20,9 +20,19 @@ export default function AppRouter() {
     case 'login':
       Page = Login;
       break;
+    case 'registration':
+      Page = Registration;
+      break;
     default:
       throw new Error('unreachable');
   }
 
-  return <Page csrfToken={csrfToken} data={data} flashes={flashes} />;
+  return (
+    <Page
+      csrfToken={csrfToken}
+      data={data}
+      flashes={flashes}
+      formErrors={formErrors}
+    />
+  );
 }
