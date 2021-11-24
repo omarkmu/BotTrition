@@ -1,5 +1,5 @@
 export {
-  AnchorButton, Form, Input, Option, Select, Submit,
+  AnchorButton, Form, Input, Select, Submit,
 } from './components/HTMLComponents';
 
 export {

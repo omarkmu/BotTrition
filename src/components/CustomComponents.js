@@ -32,15 +32,11 @@ export function Row(props) {
     : {};
 
   return (
-    <span
+    <div
       className="container-row"
       style={style}
     >
       {children}
-    </span>
+    </div>
   );
 }
-
-export {
-  Form, Input, Option, Select, Submit,
-} from './HTMLComponents';

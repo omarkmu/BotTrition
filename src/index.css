@@ -38,7 +38,6 @@ div.container {
 }
 
 /* probably better to do this with flexbox */
-span.container-row {
-  display: block;
+div.container-row {
   margin-bottom: calc(5px * var(--margin-factor));
 }

@@ -50,7 +50,7 @@ export function Input(props) {
   let initialValue = '';
   if (value) {
     initialValue = value;
-  } else if ((form?.errors?.[id]?.length ?? 0) === 0) {
+  } else if (form && (form.errors?.[id]?.length ?? 0) === 0) {
     // use the form data as the initial value if there were no errors
     initialValue = form.data[id];
   }
@@ -102,7 +102,7 @@ export function Input(props) {
   );
 }
 
-export function Option(props) {
+function Option(props) {
   const {
     text, value, selected,
   } = props;
