@@ -7,6 +7,7 @@ export default function Login(props) {
   const {
     csrfToken,
     flashes,
+    formErrors,
   } = props;
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function Login(props) {
           type="text"
           id="username"
           placeholder="Username"
+          errors={formErrors}
           required
         />
 
@@ -28,6 +30,7 @@ export default function Login(props) {
           type="password"
           id="password"
           placeholder="Password"
+          errors={formErrors}
           required
         />
 

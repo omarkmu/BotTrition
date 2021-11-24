@@ -7,6 +7,7 @@ export default function Registration(props) {
   const {
     csrfToken,
     flashes,
+    formErrors,
   } = props;
 
   useEffect(() => {
@@ -21,6 +22,9 @@ export default function Registration(props) {
           type="text"
           id="username"
           placeholder="Username"
+          errors={formErrors}
+          minlength="4"
+          maxlength="20"
           required
         />
 
@@ -28,6 +32,9 @@ export default function Registration(props) {
           type="password"
           id="password"
           placeholder="Password"
+          errors={formErrors}
+          minlength="4"
+          maxlength="20"
           required
         />
 

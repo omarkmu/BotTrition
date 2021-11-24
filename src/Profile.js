@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Container, DateInput, Flashes, Form, LinkButton, NumberInput, Select, Submit,
+  Container, Flashes, Form, LinkButton, Input, Select, Submit,
 } from './Components';
 
 export default function Profile(props) {
@@ -10,6 +10,7 @@ export default function Profile(props) {
     csrfToken,
     data,
     flashes,
+    formErrors,
   } = props;
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function Profile(props) {
     <Container>
       <h1>Profile</h1>
 
-      <LinkButton href="/index" value="View Main Page" />
+      <LinkButton href="/app" value="View Main Page" />
 
       <br />
 
@@ -61,18 +62,24 @@ export default function Profile(props) {
         <br />
 
         Weight:
-        <NumberInput
+        <Input
+          type="number"
           id="weight"
           placeholder="Weight (lbs)"
           value={data.weight}
+          errors={formErrors}
+          min="1"
           step="any"
           required
         />
 
         Birthdate:
-        <DateInput
+        <Input
+          type="date"
           id="birthdate"
           value={data.birth_date}
+          errors={formErrors}
+          min="1900-01-01"
           required
         />
 

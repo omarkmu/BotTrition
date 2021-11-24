@@ -41,9 +41,5 @@ export function LinkButton(props) {
 }
 
 export {
-  Form, Option, Select, Submit,
+  Form, Input, Option, Select, Submit,
 } from './Components/HTMLComponents';
-
-export {
-  Input, DateInput, NumberInput,
-} from './Components/InputComponents';

@@ -14,35 +14,43 @@ from wtforms import (
 from wtforms.validators import (
     DataRequired,
     Length,
+    NumberRange,
     ValidationError,
 )
 from database import BTUser
+from setup import bcrypt
 
 
 class RegisterForm(FlaskForm):
     """
-    Register form from FlaskForm.
-    Allows the input data to be pulled from front
-    and have requirements.
+    Register form created with FlaskForm.
+    Validates input data from the frontend.
     """
 
     username = StringField(
         validators=[
-            DataRequired(),
+            DataRequired(message="Please enter a username."),
             Length(
                 min=4,
+                message="Username must be at least 4 characters in length.",
+            ),
+            Length(
                 max=20,
-                message="Username must be between 4 and 20 characters in length",
+                message="Username cannot be more than 20 characters in length.",
             ),
         ],
     )
+
     password = PasswordField(
         validators=[
-            DataRequired(),
+            DataRequired(message="Please enter a password."),
             Length(
                 min=4,
+                message="Password must be at least 4 characters in length.",
+            ),
+            Length(
                 max=20,
-                message="Password must be between 4 and 20 characters in length",
+                message="Password cannot be more than 20 characters in length.",
             ),
         ],
     )
@@ -65,13 +73,41 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     """
     Login form created with FlaskForm.
-    This allows us to pass inputs/outputs
-    back and forth.
+    Validates login information from the frontend.
     """
 
-    username = StringField(validators=[DataRequired()])
-    password = PasswordField(validators=[DataRequired()])
+    username = StringField(
+        validators=[DataRequired(message="Please enter a username.")]
+    )
+
+    password = PasswordField(
+        validators=[DataRequired(message="Please enter a password.")]
+    )
+
     submit = SubmitField()
+
+    def validate_on_submit(self):
+        """
+        Checks the database for a user with the specified username and password.
+        If such a user doesn't exist, validation fails.
+        """
+
+        validation_result = super().validate_on_submit()
+        if not validation_result:
+            return validation_result
+
+        user = BTUser.query.filter_by(username=self.username.data).first()
+        if not user:
+            self.username.errors.append(
+                "There's no user with that username. Did you mean to sign up?"
+            )
+            return False
+
+        if not bcrypt.check_password_hash(user.password_hash, self.password.data):
+            self.password.errors.append("Incorrect password.")
+            return False
+
+        return True
 
 
 class ProfileForm(FlaskForm):
@@ -110,14 +146,23 @@ class ProfileForm(FlaskForm):
         validators=[DataRequired()],
     )
 
-    weight = DecimalField(validators=[DataRequired()])
+    weight = DecimalField(
+        validators=[
+            DataRequired(),
+            NumberRange(min=1, message="Weight must be greater than zero."),
+        ]
+    )
+
     birthdate = DateField(validators=[DataRequired()])
+
     submit = SubmitField()
 
     @staticmethod
     def validate_birthdate(_, birthdate):
         """
-        Checks the date to confirm it's valid.
+        Checks the birth date to confirm its validity.
+        All dates during or after the year 1900 are considered valid.
         """
+
         if birthdate.data.year < 1900:  # oldest person alive currently was born in 1903
-            raise ValidationError("Please enter a birth year after 1900.")
+            raise ValidationError("Please enter a valid birth date.")

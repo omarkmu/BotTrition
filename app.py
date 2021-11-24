@@ -37,11 +37,11 @@ def main():
     return redirect("login")
 
 
-@app.route("/index")
+@app.route("/app")
 @login_required
 def index():
     """
-    The index page of the app.
+    The main page of the app.
     """
     # NOTE: left this here because we may need it for favorites
     data = {"your": "data here"}
@@ -60,30 +60,32 @@ def profile():
 
     form = ProfileForm()
 
-    if form.validate_on_submit():
-        height_feet = form.height_feet.data or 0
-        height_inches = form.height_inches.data or 0
+    if not form.validate_on_submit():
+        return render(data=current_user.profile.json, form=form)
 
-        for existing_profile in Profile.query.filter_by(user_id=current_user.id):
-            db.session.delete(existing_profile)
+    # delete existing profile (loop just in case)
+    for existing_profile in Profile.query.filter_by(user_id=current_user.id):
+        db.session.delete(existing_profile)
 
-        updated_profile = Profile(
-            user_id=current_user.id,
-            gender=form.gender.data,
-            height=height_feet * 12 + (height_inches % 12),  # mod to convert 12 to 0
-            weight=form.weight.data,
-            birth_year=form.birthdate.data.year,
-            birth_month=form.birthdate.data.month,
-            birth_day=form.birthdate.data.day,
-        )
+    # update profile information
+    height_feet = form.height_feet.data or 0
+    height_inches = form.height_inches.data or 0
 
-        db.session.add(updated_profile)
-        db.session.commit()
+    updated_profile = Profile(
+        user_id=current_user.id,
+        gender=form.gender.data,
+        height=height_feet * 12 + (height_inches % 12),  # mod to convert 12 to 0
+        weight=form.weight.data,
+        birth_year=form.birthdate.data.year,
+        birth_month=form.birthdate.data.month,
+        birth_day=form.birthdate.data.day,
+    )
 
-        flash("Profile Updated!")
-        return redirect("profile")
+    db.session.add(updated_profile)
+    db.session.commit()
 
-    return render(data=current_user.profile.json, form=form)
+    flash("Profile Updated!")
+    return redirect("profile")
 
 
 @app.route("/registration", methods=["GET", "POST"])
@@ -98,30 +100,19 @@ def registration():
 
     form = RegisterForm()
 
-    # checks the input to see if the username and password are valid
-    if form.username.data is None:
-        flash("Please enter a username")
-    elif len(form.username.data) < 4:
-        flash("Please enter a username that has more than 4 characters")
-    elif len(form.username.data) > 20:
-        flash("Please enter a username that is less than 20 characters")
-    elif len(form.password.data) < 4:
-        flash("Please enter a password greater than 4 characters")
-    elif len(form.password.data) > 20:
-        flash("Please enter a password shorter than 20 characters")
+    if not form.validate_on_submit():
+        return render(form=form)
 
     # hashes password and stores it in the db
-    if form.validate_on_submit():
-        pw_hash = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        new_user = BTUser(
-            username=form.username.data, password_hash=pw_hash, profile=Profile()
-        )
-        db.session.add(new_user)
-        db.session.commit()
-        flash("Account Created!")
-        return redirect("login")
+    pw_hash = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+    new_user = BTUser(
+        username=form.username.data, password_hash=pw_hash, profile=Profile()
+    )
+    db.session.add(new_user)
+    db.session.commit()
 
-    return render(form=form)
+    flash("Account Created!")
+    return redirect("login")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -137,27 +128,23 @@ def login():
     form = LoginForm()
 
     # checks to see if both inputs are valid
-    if form.validate_on_submit():
-        db_user = BTUser.query.filter_by(username=form.username.data).first()
-        # checks to see if user is valid
-        if db_user:
-            # checks to see if passwords match
-            if bcrypt.check_password_hash(db_user.password_hash, form.password.data):
-                login_user(db_user)
-                return redirect("index")
-            # if passwords do not match, return error
-            flash("Incorrect username or password")
-            return redirect("index")
+    if not form.validate_on_submit():
+        return render(form=form)
 
-    return render(form=form)
+    # already checked validity in form validator, so just grab the user
+    db_user = BTUser.query.filter_by(username=form.username.data).first()
+
+    # username and password are valid; log in and redirect
+    login_user(db_user)
+    return redirect("index")
 
 
 @app.route("/api/search", methods=["POST"])
 @csrf.exempt  # fixes the "bad request" error
-def api():
+def api_search():
     """
     The search route to handle search requests for the main
-    app page.Allows users to view food data from the USDA API.
+    app page. Allows users to view food data from the USDA API.
     """
     if flask.request.json is None:
         return flask.jsonify({"error": "invalid request"})

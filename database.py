@@ -51,7 +51,7 @@ class Profile(db.Model):
             "birth_day": self.birth_day,
             "birth_month": self.birth_month,
             "birth_year": self.birth_year,
-            "birth_date": f"{self.birth_year}-{self.birth_month}-{self.birth_day}",
+            "birth_date": f"{self.birth_year:04d}-{self.birth_month:02d}-{self.birth_day:02d}",
         }
 
 
