@@ -6,7 +6,7 @@ function trySubmit(form) {
     // have to call it this way because the "submit" name overrides the method
     HTMLFormElement.prototype.submit.call(form);
   } else {
-    form.reportValidity();
+    form.reportValidity?.();
   }
 }
 
@@ -50,9 +50,9 @@ export function Input(props) {
   let initialValue = '';
   if (value) {
     initialValue = value;
-  } else if (form && (form.errors?.[id]?.length ?? 0) === 0) {
+  } else if ((form?.errors?.[id]?.length ?? 0) === 0) {
     // use the form data as the initial value if there were no errors
-    initialValue = form.data[id];
+    initialValue = form?.data?.[id] ?? '';
   }
 
   const [inputValue, setValue] = useState(initialValue);
@@ -61,15 +61,13 @@ export function Input(props) {
   // single-run useEffect to display form errors from flask
   const inputRef = useRef(null);
   useEffect(() => {
-    if (!form) return;
-
-    const err = form.errors[id]?.[0];
+    const err = form?.errors?.[id]?.[0];
     if (!err) return;
 
     const el = inputRef.current;
     el.setCustomValidity(err);
     setTimeout(() => { // 0 delay setTimeout to fix race condition
-      el.reportValidity();
+      el.reportValidity?.();
       el.setCustomValidity('');
     });
   }, []);

@@ -35,7 +35,7 @@ class Profile(db.Model):
 
     gender = db.Column(db.String(80))
     height = db.Column(db.Integer)
-    weight = db.Column(db.Integer)
+    weight = db.Column(db.Float)
 
     birth_day = db.Column(db.Integer)
     birth_month = db.Column(db.Integer)

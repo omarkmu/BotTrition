@@ -16,11 +16,7 @@ function getData(key, json = true) {
 const csrfToken = getData('csrf_token', false);
 const data = getData('data');
 const flashes = getData('flashes');
-
-const form = {
-  data: getData('formData'),
-  errors: getData('formErrors'),
-};
+const form = getData('form_data');
 
 export default function AppRouter() {
   // temporary solution; should be replaced with React Router
