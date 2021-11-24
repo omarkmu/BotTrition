@@ -1,6 +1,7 @@
 :root {
   --background-color: #8BAAAD;
   --error-color: #ad948b;
+  --margin-factor: 3;
 }
 
 body {
@@ -27,10 +28,16 @@ input:invalid:focus-visible {
   outline: solid var(--error-color);
 }
 
-.container {
+div.container {
   max-width: 650px;
   text-align: center;
   margin: 1rem auto;
   overflow: auto;
   padding: 0px;
+}
+
+/* probably better to do this with flexbox */
+span.container-row {
+  display: block;
+  margin-bottom: calc(5px * var(--margin-factor));
 }

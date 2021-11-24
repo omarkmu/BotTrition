@@ -1,7 +1,17 @@
 import React from 'react';
-import {
-  Form, Submit,
-} from './Components/HTMLComponents';
+
+export function AnchorButton(props) {
+  const { href, text } = props;
+
+  return (
+    <button
+      type="button"
+      onClick={() => { window.location.href = href; }}
+    >
+      {text}
+    </button>
+  );
+}
 
 export function Container(props) {
   const { children } = props;
@@ -21,25 +31,31 @@ export function Flashes(props) {
   if (flashes.length === 0) return null;
 
   return (
-    <div className="flashes">
-      {flashes.map((message) => <div className="alert-error">{message}</div>)}
-    </div>
+    <Row>
+      <div className="flashes">
+        {flashes.map((message) => <div className="alert-error">{message}</div>)}
+      </div>
+    </Row>
   );
 }
 
-export function LinkButton(props) {
-  const { href, value } = props;
+export function Row(props) {
+  const { marginFactor, children } = props;
 
-  // uses a form to function as a link;
-  // may be better to replace this with a styled anchor
-  // which matches styled buttons
+  const style = marginFactor
+    ? { '--margin-factor': marginFactor }
+    : {};
+
   return (
-    <Form method="GET" action={href}>
-      <Submit value={value} />
-    </Form>
+    <span
+      className="container-row"
+      style={style}
+    >
+      {children}
+    </span>
   );
 }
 
 export {
   Form, Input, Option, Select, Submit,
-} from './Components/HTMLComponents';
+} from './HTMLComponents';

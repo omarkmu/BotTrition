@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Container, Flashes, Form, LinkButton, Input, Select, Submit,
+  AnchorButton, Container, Flashes, Form, Input, Row, Select, Submit,
 } from './Components';
 
 export default function Profile(props) {
@@ -29,73 +29,69 @@ export default function Profile(props) {
     <Container>
       <h1>Profile</h1>
 
-      <LinkButton href="/app" value="View Main Page" />
+      <Row>
+        <AnchorButton href="/app" text="View Main Page" />
+      </Row>
 
-      <br />
+      <Row>
+        <Form token={csrfToken}>
+          <Row marginFactor={2}>
+            Gender:
+            <Select
+              id="gender"
+              selected={data.gender}
+              required
+              values={['male', 'female', 'other']}
+              labels={['Male', 'Female', 'Non-Binary']}
+            />
 
-      <Form token={csrfToken}>
-        Gender:
-        <Select
-          id="gender"
-          selected={data.gender}
-          required
-          values={['male', 'female', 'other']}
-          labels={['Male', 'Female', 'Non-Binary']}
-        />
+            Height:
+            <Select
+              id="height_feet"
+              selected={heightFeet}
+              values={['4', '5', '6', '7']}
+              labels={['4\'', '5\'', '6\'', '7\'']}
+            />
 
-        Height:
-        <Select
-          id="height_feet"
-          selected={heightFeet}
-          values={['4', '5', '6', '7']}
-          labels={['4\'', '5\'', '6\'', '7\'']}
-        />
+            <Select
+              id="height_inches"
+              selected={heightInches}
+              values={['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']}
+              labels={['0"', '1"', '2"', '3"', '4"', '5"', '6"', '7"', '8"', '9"', '10"', '11"']}
+            />
+          </Row>
 
-        <Select
-          id="height_inches"
-          selected={heightInches}
-          values={['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']}
-          labels={['0"', '1"', '2"', '3"', '4"', '5"', '6"', '7"', '8"', '9"', '10"', '11"']}
-        />
+          <Row>
+            Weight:
+            <Input
+              type="number"
+              id="weight"
+              placeholder="Weight (lbs)"
+              value={data.weight}
+              errors={formErrors}
+              min="1"
+              step="any"
+              required
+            />
 
-        <br />
-        <br />
+            Birthdate:
+            <Input
+              type="date"
+              id="birthdate"
+              value={data.birth_date}
+              errors={formErrors}
+              min="1900-01-01"
+              required
+            />
+          </Row>
 
-        Weight:
-        <Input
-          type="number"
-          id="weight"
-          placeholder="Weight (lbs)"
-          value={data.weight}
-          errors={formErrors}
-          min="1"
-          step="any"
-          required
-        />
-
-        Birthdate:
-        <Input
-          type="date"
-          id="birthdate"
-          value={data.birth_date}
-          errors={formErrors}
-          min="1900-01-01"
-          required
-        />
-
-        <br />
-        <br />
-
-        <Submit id="submit" value="Save Information" />
-      </Form>
+          <Row>
+            <Submit id="submit" value="Save Information" />
+          </Row>
+        </Form>
+      </Row>
 
       <Flashes flashes={flashes} />
-
-      Don&apos;t have an account? Register
-      {' '}
-      {/* TODO: replace this with a React Router Link */}
-      <a href="/registration">here</a>
-      .
     </Container>
   );
 }
