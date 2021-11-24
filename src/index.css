@@ -1,6 +1,6 @@
 :root {
   --background-color: #8BAAAD;
-  --error-color: #ad948b;
+  --error-color: #E4572E;
   --margin-factor: 3;
 }
 
@@ -14,18 +14,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+label {
+  margin-right: 5px;
+}
+
 select,
 input:not([type="submit"]) {
   margin-right: 9px;
 }
 
 /* TODO: improve styling for invalid inputs */
-input:invalid {
-  border-color: var(--error-color);
-}
-input:invalid:focus,
-input:invalid:focus-visible {
-  outline: solid var(--error-color);
+input:invalid:not(:focus),
+input:invalid:not(:focus-visible) {
+  box-shadow: 0 0 0 2px var(--error-color)
 }
 
 div.container {

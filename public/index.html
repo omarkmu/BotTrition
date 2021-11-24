@@ -37,6 +37,13 @@
       {% endif %}
     </script>
     <script id="flashes" type="application/json">{{ get_flashed_messages()|tojson|safe }}</script>
+    <script id="formData" type="application/json">
+      {%- if form and form.data %}
+        {{ form.data|tojson|safe }}
+      {% else %}
+        {}
+      {% endif %}
+    </script>
     <script id="formErrors" type="application/json">
       {%- if form and form.errors %}
         {{ form.errors|tojson|safe }}

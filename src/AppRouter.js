@@ -4,13 +4,25 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Registration from './pages/Registration';
 
-export default function AppRouter() {
-  // read information sent from flask
-  const data = JSON.parse(document.getElementById('data').text);
-  const flashes = JSON.parse(document.getElementById('flashes').text);
-  const formErrors = JSON.parse(document.getElementById('formErrors').text);
-  const csrfToken = document.getElementById('csrf_token').text;
+// reads information sent from flask and deletes the element containing it
+function getData(key, json = true) {
+  const el = document.getElementById(key);
+  const content = el.text;
 
+  el.remove();
+  return json ? JSON.parse(content) : content;
+}
+
+const csrfToken = getData('csrf_token', false);
+const data = getData('data');
+const flashes = getData('flashes');
+
+const form = {
+  data: getData('formData'),
+  errors: getData('formErrors'),
+};
+
+export default function AppRouter() {
   // temporary solution; should be replaced with React Router
   const path = window.location.pathname.slice(1); // remove the leading slash
   let Page;
@@ -36,7 +48,7 @@ export default function AppRouter() {
       csrfToken={csrfToken}
       data={data}
       flashes={flashes}
-      formErrors={formErrors}
+      form={form}
     />
   );
 }

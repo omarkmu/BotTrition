@@ -10,7 +10,7 @@ export default function Profile(props) {
     csrfToken,
     data,
     flashes,
-    formErrors,
+    form,
   } = props;
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Profile(props) {
       <Row>
         <Form token={csrfToken}>
           <Row marginFactor={2}>
-            Gender:
+            <label htmlFor="gender">Gender:</label>
             <Select
               id="gender"
               selected={data.gender}
@@ -45,7 +45,7 @@ export default function Profile(props) {
               labels={['Male', 'Female', 'Non-Binary']}
             />
 
-            Height:
+            <label htmlFor="height_feet">Height:</label>
             <Select
               id="height_feet"
               selected={heightFeet}
@@ -62,24 +62,24 @@ export default function Profile(props) {
           </Row>
 
           <Row>
-            Weight:
+            <label htmlFor="weight">Weight:</label>
             <Input
+              form={form}
               type="number"
               id="weight"
               placeholder="Weight (lbs)"
               value={data.weight}
-              errors={formErrors}
               min="1"
               step="any"
               required
             />
 
-            Birthdate:
+            <label htmlFor="birthdate">Birthdate:</label>
             <Input
+              form={form}
               type="date"
               id="birthdate"
               value={data.birth_date}
-              errors={formErrors}
               min="1900-01-01"
               required
             />

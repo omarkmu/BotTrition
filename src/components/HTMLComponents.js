@@ -38,15 +38,32 @@ export function Form(props) {
 
 export function Input(props) {
   const {
-    type, id, value, onChange, errors, ...rest
+    type,
+    id,
+    value,
+    onChange,
+    form,
+    required,
+    ...rest
   } = props;
 
-  const inputRef = useRef(null);
-  const [inputValue, setValue] = useState(value ?? '');
+  let initialValue = '';
+  if (value) {
+    initialValue = value;
+  } else if ((form?.errors?.[id]?.length ?? 0) === 0) {
+    // use the form data as the initial value if there were no errors
+    initialValue = form.data[id];
+  }
+
+  const [inputValue, setValue] = useState(initialValue);
+  const [validateRequired, setValidateRequired] = useState(type === 'date');
 
   // single-run useEffect to display form errors from flask
+  const inputRef = useRef(null);
   useEffect(() => {
-    const err = errors?.[id]?.[0];
+    if (!form) return;
+
+    const err = form.errors[id]?.[0];
     if (!err) return;
 
     const el = inputRef.current;
@@ -60,6 +77,7 @@ export function Input(props) {
   const onChangeHandler = (e) => {
     onChange?.(e);
     setValue(e.target.value);
+    setValidateRequired(true);
   };
 
   const onKeyDownHandler = (e) => {
@@ -74,8 +92,10 @@ export function Input(props) {
       id={id}
       name={id}
       value={inputValue}
+      required={required && validateRequired}
       onChange={onChangeHandler}
       onKeyDown={onKeyDownHandler}
+      onBlur={() => setValidateRequired(true)}
       ref={inputRef}
       {...rest}
     />

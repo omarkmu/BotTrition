@@ -44,14 +44,18 @@ class Profile(db.Model):
     @property
     def json(self):
         """Returns the user profile data as a JSON serializable dict."""
+        birth_date = None
+
+        if self.birth_year and self.birth_month and self.birth_day:
+            birth_date = (
+                f"{self.birth_year:04d}-{self.birth_month:02d}-{self.birth_day:02d}"
+            )
+
         return {
             "gender": self.gender,
             "height": self.height,
             "weight": self.weight,
-            "birth_day": self.birth_day,
-            "birth_month": self.birth_month,
-            "birth_year": self.birth_year,
-            "birth_date": f"{self.birth_year:04d}-{self.birth_month:02d}-{self.birth_day:02d}",
+            "birth_date": birth_date,
         }
 
 

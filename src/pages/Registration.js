@@ -7,7 +7,7 @@ export default function Registration(props) {
   const {
     csrfToken,
     flashes,
-    formErrors,
+    form,
   } = props;
 
   useEffect(() => {
@@ -21,20 +21,20 @@ export default function Registration(props) {
       <Row>
         <Form token={csrfToken}>
           <Input
+            form={form}
             type="text"
             id="username"
             placeholder="Username"
-            errors={formErrors}
             minlength="4"
             maxlength="20"
             required
           />
 
           <Input
+            form={form}
             type="password"
             id="password"
             placeholder="Password"
-            errors={formErrors}
             minlength="4"
             maxlength="20"
             required

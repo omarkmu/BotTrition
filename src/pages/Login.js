@@ -7,7 +7,7 @@ export default function Login(props) {
   const {
     csrfToken,
     flashes,
-    formErrors,
+    form,
   } = props;
 
   useEffect(() => {
@@ -21,18 +21,18 @@ export default function Login(props) {
       <Row>
         <Form token={csrfToken}>
           <Input
+            form={form}
             type="text"
             id="username"
             placeholder="Username"
-            errors={formErrors}
             required
           />
 
           <Input
+            form={form}
             type="password"
             id="password"
             placeholder="Password"
-            errors={formErrors}
             required
           />
 
