@@ -34,7 +34,8 @@
           "react/no-array-index-key": "off",
           "react-hooks/exhaustive-deps": "off",
           "react/jsx-filename-extension": "off",
-          "react/prop-types": 0
+          "react/jsx-props-no-spreading": "off",
+          "react/prop-types": "off"
         }
       }
     ]

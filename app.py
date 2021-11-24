@@ -70,7 +70,7 @@ def profile():
         updated_profile = Profile(
             user_id=current_user.id,
             gender=form.gender.data,
-            height=height_feet * 12 + height_inches,
+            height=height_feet * 12 + (height_inches % 12),  # mod to convert 12 to 0
             weight=form.weight.data,
             birth_year=form.birthdate.data.year,
             birth_month=form.birthdate.data.month,
@@ -83,11 +83,9 @@ def profile():
         flash("Profile Updated!")
         return redirect("profile")
 
-    return render(form=form)
+    return render(data=current_user.profile.json, form=form)
 
 
-# NOTE user cannot be verified until DB is set up and conditional statements
-# will have to be updated
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
     """

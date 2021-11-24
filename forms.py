@@ -94,7 +94,7 @@ class ProfileForm(FlaskForm):
     height_inches = SelectField(
         coerce=int,
         choices=[
-            ("0", '0"'),
+            ("12", '0"'),
             ("1", '1"'),
             ("2", '2"'),
             ("3", '3"'),
@@ -112,5 +112,12 @@ class ProfileForm(FlaskForm):
 
     weight = DecimalField(validators=[DataRequired()])
     birthdate = DateField(validators=[DataRequired()])
-
     submit = SubmitField()
+
+    @staticmethod
+    def validate_birthdate(_, birthdate):
+        """
+        Checks the date to confirm it's valid.
+        """
+        if birthdate.data.year < 1900:  # oldest person alive currently was born in 1903
+            raise ValidationError("Please enter a birth year after 1900.")

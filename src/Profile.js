@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Flashes from './Flashes';
+import React, { useEffect } from 'react';
+import {
+  Container, DateInput, Flashes, Form, LinkButton, NumberInput, Select, Submit,
+} from './Components';
 
 export default function Profile(props) {
-  // TODO: extract different parts into components
-  // TODO: use defaults in gender & height selects
   // TODO: add frontend validation via setCustomValidity
 
   const {
@@ -12,94 +12,83 @@ export default function Profile(props) {
     flashes,
   } = props;
 
-  const [weight, setWeight] = useState(data.weight ?? '');
-  const [birthdate, setBirthdate] = useState(data.birth_date ?? '');
-
   useEffect(() => {
     document.title = 'Profile – BotTrition';
   });
 
+  let heightFeet;
+  let heightInches;
+
+  if (data.height) {
+    heightFeet = Math.floor(data.height / 12);
+    heightInches = data.height % 12;
+  }
+
   return (
-    <>
-      <div className="container">
-        <h1>Profile</h1>
-        <a href="/index">
-          <div className="container">
-            <button type="button">View Main Page</button>
-          </div>
-        </a>
-        <form method="post">
-          <input type="hidden" name="csrf_token" value={csrfToken} />
+    <Container>
+      <h1>Profile</h1>
 
-          Gender:
-          <select id="gender" name="gender" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Non-Binary</option>
-          </select>
+      <LinkButton href="/index" value="View Main Page" />
 
-          Height:
-          <select id="height_feet" name="height_feet" required>
-            <option value="4">4&apos;</option>
-            <option value="5">5&apos;</option>
-            <option value="6">6&apos;</option>
-            <option value="7">7&apos;</option>
-          </select>
-          <select id="height_inches" name="height_inches" required>
-            <option value="1">1&quot;</option>
-            <option value="2">2&quot;</option>
-            <option value="3">3&quot;</option>
-            <option value="4">4&quot;</option>
-            <option value="5">5&quot;</option>
-            <option value="6">6&quot;</option>
-            <option value="7">7&quot;</option>
-            <option value="8">8&quot;</option>
-            <option value="9">9&quot;</option>
-            <option value="10">10&quot;</option>
-            <option value="11">11&quot;</option>
-          </select>
+      <br />
 
-          <br />
-          <br />
+      <Form token={csrfToken}>
+        Gender:
+        <Select
+          id="gender"
+          selected={data.gender}
+          required
+          values={['male', 'female', 'other']}
+          labels={['Male', 'Female', 'Non-Binary']}
+        />
 
-          Weight:
-          <input
-            id="weight"
-            name="weight"
-            placeholder="Weight (lbs)"
-            step="any"
-            type="number"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
-            required
-          />
+        Height:
+        <Select
+          id="height_feet"
+          selected={heightFeet}
+          values={['4', '5', '6', '7']}
+          labels={['4\'', '5\'', '6\'', '7\'']}
+        />
 
-          Birthdate:
-          <input
-            id="birthdate"
-            name="birthdate"
-            type="date"
-            value={birthdate}
-            onChange={(e) => setBirthdate(e.target.value)}
-            required
-          />
+        <Select
+          id="height_inches"
+          selected={heightInches}
+          values={['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']}
+          labels={['0"', '1"', '2"', '3"', '4"', '5"', '6"', '7"', '8"', '9"', '10"', '11"']}
+        />
 
-          <br />
-          <br />
+        <br />
+        <br />
 
-          <input id="submit" name="submit" type="submit" value="Save Information" />
-        </form>
-      </div>
+        Weight:
+        <NumberInput
+          id="weight"
+          placeholder="Weight (lbs)"
+          value={data.weight}
+          step="any"
+          required
+        />
+
+        Birthdate:
+        <DateInput
+          id="birthdate"
+          value={data.birth_date}
+          required
+        />
+
+        <br />
+        <br />
+
+        <Submit id="submit" value="Save Information" />
+      </Form>
 
       <Flashes flashes={flashes} />
 
-      <div className="container">
-        Don&apos;t have an account? Register
-        {' '}
-        {/* TODO: replace this with a React Router Link */}
-        <a href="/registration">here</a>
-        .
-      </div>
-    </>
+      Don&apos;t have an account? Register
+      {' '}
+      {/* TODO: replace this with a React Router Link */}
+      <a href="/registration">here</a>
+      .
+    </Container>
   );
 }
