@@ -10,6 +10,19 @@ function trySubmit(form) {
   }
 }
 
+export function AnchorButton(props) {
+  const { href, text } = props;
+
+  return (
+    <button
+      type="button"
+      onClick={() => { window.location.href = href; }}
+    >
+      {text}
+    </button>
+  );
+}
+
 export function Form(props) {
   const {
     children, method, action, token,

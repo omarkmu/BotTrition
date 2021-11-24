@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import {
   Container, Flashes, Form, Input, Row, Submit,
-} from './Components';
+} from '../Components';
 
-export default function Login(props) {
+export default function Registration(props) {
   const {
     csrfToken,
     flashes,
@@ -11,12 +11,12 @@ export default function Login(props) {
   } = props;
 
   useEffect(() => {
-    document.title = 'Login – BotTrition';
+    document.title = 'Register – BotTrition';
   });
 
   return (
     <Container>
-      <h1>Log In</h1>
+      <h1>Sign Up</h1>
 
       <Row>
         <Form token={csrfToken}>
@@ -25,6 +25,8 @@ export default function Login(props) {
             id="username"
             placeholder="Username"
             errors={formErrors}
+            minlength="4"
+            maxlength="20"
             required
           />
 
@@ -33,6 +35,8 @@ export default function Login(props) {
             id="password"
             placeholder="Password"
             errors={formErrors}
+            minlength="4"
+            maxlength="20"
             required
           />
 
@@ -43,10 +47,10 @@ export default function Login(props) {
       <Flashes flashes={flashes} />
 
       <Row>
-        Don&apos;t have an account? Register
+        Already have an account? Log in
         {' '}
         {/* TODO: replace this with a React Router Link */}
-        <a href="/registration">here</a>
+        <a href="/login">here</a>
         .
       </Row>
     </Container>

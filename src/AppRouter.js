@@ -1,8 +1,8 @@
 import React from 'react';
-import App from './App';
-import Login from './Login';
-import Profile from './Profile';
-import Registration from './Registration';
+import App from './pages/App';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import Registration from './pages/Registration';
 
 export default function AppRouter() {
   // read information sent from flask

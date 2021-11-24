@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   AnchorButton, Container, Flashes, Form, Input, Row, Select, Submit,
-} from './Components';
+} from '../Components';
 
 export default function Profile(props) {
   // TODO: add frontend validation via setCustomValidity
