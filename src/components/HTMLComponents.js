@@ -2,7 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 
 function trySubmit(form) {
   if (!form) return;
-  if (form.checkValidity()) {
+
+  let isValid = form.checkValidity();
+  if (isValid) {
+    [...form.elements].forEach((el) => {
+      // check for custom required field and invalidate if present
+      if (el.getAttribute('data-required')) {
+        // set the real required attribute
+        el.setAttribute('required', '');
+        isValid = false;
+      }
+    });
+  }
+
+  if (isValid) {
     // have to call it this way because the "submit" name overrides the method
     HTMLFormElement.prototype.submit.call(form);
   } else {
@@ -38,7 +51,6 @@ export function Form(props) {
 
 export function Input(props) {
   const {
-    type,
     id,
     value,
     onChange,
@@ -56,7 +68,7 @@ export function Input(props) {
   }
 
   const [inputValue, setValue] = useState(initialValue);
-  const [validateRequired, setValidateRequired] = useState(type === 'date');
+  const [validateRequired, setValidateRequired] = useState(false);
 
   // single-run useEffect to display form errors from flask
   const inputRef = useRef(null);
@@ -86,7 +98,6 @@ export function Input(props) {
 
   return (
     <input
-      type={type}
       id={id}
       name={id}
       value={inputValue}
@@ -95,6 +106,7 @@ export function Input(props) {
       onKeyDown={onKeyDownHandler}
       onBlur={() => setValidateRequired(true)}
       ref={inputRef}
+      {...(required && !validateRequired) ? { 'data-required': true } : {}}
       {...rest}
     />
   );
@@ -102,11 +114,11 @@ export function Input(props) {
 
 function Option(props) {
   const {
-    text, value, selected,
+    text, value, selected, ...rest
   } = props;
 
   return (
-    <option value={value} selected={selected}>
+    <option value={value} selected={selected} {...rest}>
       {text}
     </option>
   );
@@ -114,18 +126,37 @@ function Option(props) {
 
 export function Select(props) {
   const {
-    id, selected, values, labels, ...rest
+    id, selected, values, labels, useDefault, defaultText, ...rest
   } = props;
 
+  let hasSelected = false;
   const valueArr = values ?? [];
   const textArr = labels ?? [];
-  const options = valueArr.map((value, idx) => (
-    <Option
-      selected={value === selected?.toString?.()}
-      value={value}
-      text={textArr[idx] ?? value}
-    />
-  ));
+  const options = valueArr.map((value, idx) => {
+    const isSelected = value === selected?.toString();
+    hasSelected ||= isSelected;
+
+    return (
+      <Option
+        selected={isSelected}
+        value={value}
+        text={textArr[idx] ?? value}
+      />
+    );
+  });
+
+  if (!hasSelected && useDefault !== undefined) {
+    const defaultValue = useDefault === true ? '' : useDefault;
+
+    options.unshift(
+      <Option
+        value={defaultValue}
+        text={defaultText ?? ''}
+        selected
+        disabled
+      />,
+    );
+  }
 
   return (
     <select
