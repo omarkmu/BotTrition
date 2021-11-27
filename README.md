@@ -57,6 +57,8 @@ Additionally, the following warnings were ignored:
 - `react/function-component-definition`: This rule was ignored because the only
 suggested fix that did not generate a linter warning was a strange pattern
 which required repeating function names: `const App = function App() { ... }`.
+- `react/jsx-props-no-spreading`: This rule was ignored because, for some HTML components,
+it was unnecessarily repetitive to specify the same attributes.
 - `react/prop-types`: This rule was ignored because strict prop typing is not
 necessary for our project.
 - `linebreak-style`: This rule was ignored because the core.autocrlf config

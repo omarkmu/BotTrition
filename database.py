@@ -35,11 +35,28 @@ class Profile(db.Model):
 
     gender = db.Column(db.String(80))
     height = db.Column(db.Integer)
-    weight = db.Column(db.Integer)
+    weight = db.Column(db.Float)
 
     birth_day = db.Column(db.Integer)
     birth_month = db.Column(db.Integer)
     birth_year = db.Column(db.Integer)
+
+    @property
+    def json(self):
+        """Returns the user profile data as a JSON serializable dict."""
+        birth_date = None
+
+        if self.birth_year and self.birth_month and self.birth_day:
+            birth_date = (
+                f"{self.birth_year:04d}-{self.birth_month:02d}-{self.birth_day:02d}"
+            )
+
+        return {
+            "gender": self.gender,
+            "height": self.height,
+            "weight": self.weight,
+            "birth_date": birth_date,
+        }
 
 
 class DietaryRestriction(db.Model):

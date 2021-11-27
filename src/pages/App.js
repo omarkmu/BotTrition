@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dropdown, Option } from './Dropdown';
+import { Dropdown, Option } from '../components/Dropdown';
 
 // This component will handle the diet lookup feature which will direct user to
 // the best overall Diets.

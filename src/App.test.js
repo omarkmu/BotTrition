@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from './App';
+import App from './pages/App';
 
-test('Succesfully renders the submit button', () => {
+test('succesfully renders the submit button', () => {
   render(<App />);
   const submitElement = screen.getByText('Submit');
   expect(submitElement).toBeInTheDocument();

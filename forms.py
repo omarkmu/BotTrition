@@ -14,106 +14,123 @@ from wtforms import (
 from wtforms.validators import (
     DataRequired,
     Length,
+    NumberRange,
     ValidationError,
 )
 from database import BTUser
+from setup import bcrypt
 
 
 class RegisterForm(FlaskForm):
     """
-    Register form from FlaskForm.
-    Allows the input data to be pulled from front
-    and have requirements.
+    Register form created with FlaskForm.
+    Validates input data from the frontend.
     """
 
-    # creates username and password fields
     username = StringField(
-        "Username",
         validators=[
-            DataRequired(),
-            Length(min=4, max=20, message="Enter a valid username"),
+            DataRequired(message="Please enter a username."),
+            Length(
+                min=4,
+                message="Username must be at least 4 characters in length.",
+            ),
+            Length(
+                max=20,
+                message="Username cannot be more than 20 characters in length.",
+            ),
         ],
-        render_kw={"placeholder": "Enter username"},
     )
+
     password = PasswordField(
-        "Password",
         validators=[
-            DataRequired(),
-            Length(min=4, max=20, message="Select a stronger password"),
+            DataRequired(message="Please enter a password."),
+            Length(
+                min=4,
+                message="Password must be at least 4 characters in length.",
+            ),
+            Length(
+                max=20,
+                message="Password cannot be more than 20 characters in length.",
+            ),
         ],
-        render_kw={"placeholder": "Enter password"},
     )
 
-    submit = SubmitField("Register")
+    submit = SubmitField()
 
-    # checks the data base to see if the same username exists in the db
-    # if so, it tells the user to enter a new one
     @staticmethod
     def validate_username(_, username):
         """
-        Validated username by checking database
+        Checks the database for an existing user with the same username.
+        If such a user exists, validation fails.
         """
         existing_username = BTUser.query.filter_by(username=username.data).first()
         if existing_username:
-            print("user already exists")
             raise ValidationError(
                 "That username has already been taken. Please try again."
             )
 
 
-# class that uses FlaskForm for user to fill out to log in
 class LoginForm(FlaskForm):
     """
     Login form created with FlaskForm.
-    This allows us to pass inputs/outputs
-    back and forth.
+    Validates login information from the frontend.
     """
 
     username = StringField(
-        "Username",
-        validators=[
-            DataRequired(),
-        ],
-        render_kw={"placeholder": "Username"},
+        validators=[DataRequired(message="Please enter a username.")]
     )
+
     password = PasswordField(
-        "Password",
-        validators=[DataRequired()],
-        render_kw={"placeholder": "Password"},
+        validators=[DataRequired(message="Please enter a password.")]
     )
-    submit = SubmitField("Login")
+
+    submit = SubmitField()
+
+    def validate_on_submit(self):
+        """
+        Checks the database for a user with the specified username and password.
+        If such a user doesn't exist, validation fails.
+        """
+
+        validation_result = super().validate_on_submit()
+        if not validation_result:
+            return validation_result
+
+        user = BTUser.query.filter_by(username=self.username.data).first()
+        if not user:
+            self.username.errors.append(
+                "There's no user with that username. Did you mean to sign up?"
+            )
+            return False
+
+        if not bcrypt.check_password_hash(user.password_hash, self.password.data):
+            self.password.errors.append("Incorrect password.")
+            return False
+
+        return True
 
 
-# class that uses flaskform for the profile page
 class ProfileForm(FlaskForm):
     """
-    Profile page where user can enter
-    their personal information for the
-    app to use.
+    Profile form which allows the user to enter
+    their personal information for the app to use.
     """
 
     gender = SelectField(
-        "Gender",
-        choices=[("male", "Male"), ("female", "Female"), ("other", "Other")],
-        validators=[
-            DataRequired(),
-        ],
-        render_kw={"placeholder": "Gender (Male/Female)"},
+        choices=[("male", "Male"), ("female", "Female"), ("other", "Non-Binary")],
+        validators=[DataRequired()],
     )
 
     height_feet = SelectField(
-        "Height (ft)",
-        choices=[("4", "4'"), ("5", "5'"), ("6", "6'"), ("7", "7'")],
-        validators=[
-            DataRequired(),
-        ],
         coerce=int,
-        render_kw={"placeholder": "Height (ft)"},
+        choices=[("4", "4'"), ("5", "5'"), ("6", "6'"), ("7", "7'")],
+        validators=[DataRequired()],
     )
 
     height_inches = SelectField(
-        "Height (in)",
+        coerce=int,
         choices=[
+            ("12", '0"'),
             ("1", '1"'),
             ("2", '2"'),
             ("3", '3"'),
@@ -126,28 +143,26 @@ class ProfileForm(FlaskForm):
             ("10", '10"'),
             ("11", '11"'),
         ],
-        coerce=int,
-        validators=[
-            DataRequired(),
-        ],
-        render_kw={"placeholder": "Height (in)"},
+        validators=[DataRequired()],
     )
 
     weight = DecimalField(
-        "Weight",
         validators=[
             DataRequired(),
-        ],
-        render_kw={"placeholder": "Weight"},
+            NumberRange(min=1, message="Weight must be greater than zero."),
+        ]
     )
 
-    birthdate = DateField(
-        "Birthdate",
-        format="%m/%d/%Y",
-        validators=[
-            DataRequired(),
-        ],
-        render_kw={"placeholder": "ex. 6/20/15"},
-    )
+    birthdate = DateField(validators=[DataRequired()])
 
-    submit = SubmitField("Save Information")
+    submit = SubmitField()
+
+    @staticmethod
+    def validate_birthdate(_, birthdate):
+        """
+        Checks the birth date to confirm its validity.
+        All dates during or after the year 1900 are considered valid.
+        """
+
+        if birthdate.data.year < 1900:  # oldest person alive currently was born in 1903
+            raise ValidationError("Please enter a valid birth date.")
