@@ -40,7 +40,13 @@ export default function App() {
 
   return (
     <div>
-      <h1> Find Out Best Overall Diets</h1>
+      <h1> BotTrition</h1>
+      <Row>
+        <AnchorButton href="/profile" text="View Profile" />
+      </Row>
+
+      <h2> Find Out Best Overall Diets</h2>
+
       <Dropdown
         buttonText="Submit"
         onChange={handleSelect}
@@ -67,9 +73,6 @@ export default function App() {
       <p>
         {foods.map((elem) => <li>{elem.description}</li>)}
       </p>
-      <Row>
-        <AnchorButton href="/app" text="Profile" />
-      </Row>
       <Row>
         <AnchorButton href="/logout" text="Logout" />
       </Row>
