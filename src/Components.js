@@ -5,7 +5,3 @@ export {
 export {
   Container, Flashes, Row,
 } from './components/CustomComponents';
-
-export {
-
-} from './components/HTMLComponents';
