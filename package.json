@@ -6,6 +6,7 @@
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router-dom": "^6.0.2",
     "react-scripts": "^4.0.2",
     "styled-components": "^5.3.3",
     "web-vitals": "^1.1.0"
@@ -36,9 +37,15 @@
           "react/jsx-filename-extension": "off",
           "react/jsx-props-no-spreading": "off",
           "react/prop-types": "off",
-          "jsx-a11y/label-has-associated-control": [ 2, {
-            "controlComponents": ["Input", "Select"]
-          }]
+          "jsx-a11y/label-has-associated-control": [
+            2,
+            {
+              "controlComponents": [
+                "Input",
+                "Select"
+              ]
+            }
+          ]
         }
       }
     ]
