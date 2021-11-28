@@ -46,7 +46,6 @@ export default function Login(props) {
       <Row>
         Don&apos;t have an account? Register
         {' '}
-        {/* TODO: replace this with a React Router Link */}
         <Link to="/registration">here</Link>
         .
       </Row>

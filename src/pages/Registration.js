@@ -50,7 +50,6 @@ export default function Registration(props) {
       <Row>
         Already have an account? Log in
         {' '}
-        {/* TODO: replace this with a React Router Link */}
         <Link to="/login">here</Link>
         .
       </Row>
