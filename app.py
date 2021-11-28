@@ -34,7 +34,7 @@ def main():
     """
     if current_user.is_authenticated:  # avoid "must login" message
         return redirect("index")
-    return render("login")
+    return render()
 
 
 @app.route("/app")
@@ -46,7 +46,6 @@ def index():
     # NOTE: left this here because we may need it for favorites
     data = {"your": "data here"}
     return render(data=data)
-
 
 
 @app.route("/profile", methods=["GET", "POST"])
