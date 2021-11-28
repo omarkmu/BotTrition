@@ -3,6 +3,7 @@ import App from './pages/App';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Registration from './pages/Registration';
+import Landing from './pages/Landing';
 
 // reads information sent from flask and deletes the element containing it
 function getData(key, json = true) {
@@ -23,6 +24,9 @@ export default function AppRouter() {
   const path = window.location.pathname.slice(1); // remove the leading slash
   let Page;
   switch (path) {
+    case 'landing':
+      Page = Landing;
+      break;
     case 'app':
       Page = App;
       break;

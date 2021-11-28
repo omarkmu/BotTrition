@@ -48,6 +48,7 @@ def index():
     return render(data=data)
 
 
+
 @app.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
