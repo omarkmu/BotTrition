@@ -65,6 +65,10 @@ export default function App() {
       <p>
         {foods.map((elem) => <li>{elem.description}</li>)}
       </p>
+      <a href="/profile">profile</a>
+
+      <a href="/logout">logout</a>
+
     </div>
   );
 }

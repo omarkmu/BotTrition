@@ -24,7 +24,7 @@ export default function AppRouter() {
   const path = window.location.pathname.slice(1); // remove the leading slash
   let Page;
   switch (path) {
-    case 'landing':
+    case ' ':
       Page = Landing;
       break;
     case 'app':

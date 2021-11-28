@@ -34,7 +34,7 @@ def main():
     """
     if current_user.is_authenticated:  # avoid "must login" message
         return redirect("index")
-    return redirect("login")
+    return render("login")
 
 
 @app.route("/app")
