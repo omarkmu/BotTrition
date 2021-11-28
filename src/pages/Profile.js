@@ -29,7 +29,7 @@ export default function Profile(props) {
       <h1>Profile</h1>
 
       <Row>
-        <AnchorButton href="/app" text="View Main Page" />
+        <AnchorButton to="/app" text="View Main Page" />
       </Row>
 
       <Row>
