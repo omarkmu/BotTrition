@@ -68,7 +68,7 @@ export function Input(props) {
   }
 
   const [inputValue, setValue] = useState(initialValue);
-  const [validateRequired, setValidateRequired] = useState(false);
+  const [validateRequired, setValidateRequired] = useState(inputValue.toString().length > 0);
 
   // single-run useEffect to display form errors from flask
   const inputRef = useRef(null);
