@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function trySubmit(form) {
   if (!form) return;
@@ -24,12 +25,13 @@ function trySubmit(form) {
 }
 
 export function AnchorButton(props) {
-  const { href, text } = props;
+  const { to, text } = props;
+  const navigate = useNavigate();
 
   return (
     <button
       type="button"
-      onClick={() => { window.location.href = href; }}
+      onClick={() => { navigate(to); }}
     >
       {text}
     </button>
