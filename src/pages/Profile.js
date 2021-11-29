@@ -93,10 +93,6 @@ export default function Profile(props) {
             <Submit id="submit" value="Save Information" />
           </Row>
         </Form>
-        <a href="/app">app page</a>
-
-        <a href="/logout">logout</a>
-
       </Row>
 
       <Flashes flashes={flashes} />
