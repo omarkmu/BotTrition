@@ -73,7 +73,7 @@ export default function App() {
             return (
               <>
                 <li>{elem.description}</li>
-                <p> These are the nutrations that are present: </p>
+                <p> These are the nutrients that are present: </p>
                 <div>
                   {elem.foodNutrients.map((element) => (
                     <p>
