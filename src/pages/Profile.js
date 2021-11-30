@@ -55,6 +55,7 @@ export default function Profile(props) {
               labels={['4\'', '5\'', '6\'', '7\'']}
             />
 
+            <label hidden htmlFor="height_inches">Height (inches):</label>
             <Select
               id="height_inches"
               useDefault
