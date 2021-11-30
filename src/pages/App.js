@@ -74,7 +74,7 @@ export default function App() {
         {foods.map((elem) => <li>{elem.description}</li>)}
       </p>
       <Row>
-        <AnchorButton href="/logout" text="Logout" />
+        <AnchorButton to="/logout" text="Logout" />
       </Row>
     </div>
   );
