@@ -63,7 +63,12 @@ export default function App() {
       />
       <button type="submit" onClick={handleSubmit}>Search</button>
       <p>
-        {foods.map((elem) => <li>{elem.description}</li>)}
+        {foods.map((elem) => {
+          if (elem.description.toLowerCase() === food.toLowerCase()) {
+            return null;
+          }
+          return <li>{elem.description}</li>;
+        })}
       </p>
     </div>
   );
