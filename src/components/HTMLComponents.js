@@ -135,26 +135,24 @@ export function Select(props) {
   const valueArr = values ?? [];
   const textArr = labels ?? [];
   const options = valueArr.map((value, idx) => {
-    const isSelected = value === selected?.toString();
-    hasSelected ||= isSelected;
+    hasSelected ||= value === selected?.toString();
 
     return (
       <Option
-        selected={isSelected}
+        key={idx}
         value={value}
         text={textArr[idx] ?? value}
       />
     );
   });
 
+  const defaultValue = useDefault === true ? '' : useDefault;
   if (!hasSelected && useDefault !== undefined) {
-    const defaultValue = useDefault === true ? '' : useDefault;
-
     options.unshift(
       <Option
+        key={-1}
         value={defaultValue}
         text={defaultText ?? ''}
-        selected
         disabled
       />,
     );
@@ -164,6 +162,7 @@ export function Select(props) {
     <select
       id={id}
       name={id}
+      defaultValue={selected ?? defaultValue ?? valueArr?.[0]}
       {...rest}
     >
       {options}
