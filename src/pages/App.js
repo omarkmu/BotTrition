@@ -7,6 +7,7 @@ export default function App() {
   const [optionValue, setOptionValue] = useState('');
   const [food, setFoodValue] = useState('');
   const [foods, setFoodsValue] = useState([]);
+  const set = new Set();
 
   const handleSelect = (e) => {
     setOptionValue(e.target.value);
@@ -67,7 +68,11 @@ export default function App() {
           if (elem.description.toLowerCase() === food.toLowerCase()) {
             return null;
           }
-          return <li>{elem.description}</li>;
+          if (!set.has(elem.description.toLowerCase())) {
+            set.add(elem.description.toLowerCase());
+            return <li>{elem.description}</li>;
+          }
+          return null;
         })}
       </p>
     </div>
