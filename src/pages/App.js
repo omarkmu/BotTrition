@@ -72,13 +72,14 @@ export default function App() {
             set.add(elem.description.toLowerCase());
             return (
               <>
-                <li>{elem.description}</li>
-                <p> These are the nutrients that are present: </p>
-                <div>
+                <li className="foodDescription">{elem.description}</li>
+                <p className="title"> These are the nutrients that are present: </p>
+                <div className="container">
                   {elem.foodNutrients.map((element) => (
-                    <p>
+                    <p className="nutration">
                       {element.nutrientName}
                       =
+                      &nbsp;
                       {element.value}
                       {element.unitName}
                     </p>
