@@ -97,6 +97,11 @@ export default function Profile(props) {
       </Row>
 
       <Flashes flashes={flashes} />
+
+      <Row>
+        <AnchorButton to="/login" text="Logout" />
+      </Row>
+
     </Container>
   );
 }
