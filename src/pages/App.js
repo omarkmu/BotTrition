@@ -7,6 +7,7 @@ export default function App() {
   const [optionValue, setOptionValue] = useState('');
   const [food, setFoodValue] = useState('');
   const [foods, setFoodsValue] = useState([]);
+  const set = new Set();
 
   const handleSelect = (e) => {
     setOptionValue(e.target.value);
@@ -62,9 +63,35 @@ export default function App() {
         onChange={handleChange}
       />
       <button type="submit" onClick={handleSubmit}>Search</button>
-      <p>
-        {foods.map((elem) => <li>{elem.description}</li>)}
-      </p>
+      <ul className="items">
+        {foods.slice(10, 30).map((elem) => {
+          if (elem.description.toLowerCase() === food.toLowerCase()) {
+            return null;// no need to show it in the page
+          }
+          if (!set.has(elem.description.toLowerCase())) {
+            set.add(elem.description.toLowerCase());
+            return (
+              <>
+                <li className="foodDescription">{elem.description}</li>
+                <p className="title"> These are the nutrients that are present: </p>
+                <div className="listofNutration">
+                  {elem.foodNutrients.map((element) => (
+                    <p className="nutration">
+                      {element.nutrientName}
+                      =
+                      &nbsp;
+                      {element.value}
+                      {element.unitName}
+                    </p>
+                  ))}
+
+                </div>
+              </>
+            );
+          }
+          return null;
+        })}
+      </ul>
     </div>
   );
 }
