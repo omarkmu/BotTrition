@@ -26,7 +26,6 @@ export default function AppRouter() {
       <Route path="login" element={<Login csrfToken={csrfToken} flashes={flashes} form={form} />} />
       <Route path="registration" element={<Registration csrfToken={csrfToken} flashes={flashes} form={form} />} />
       <Route path="profile" element={<Profile csrfToken={csrfToken} data={data} flashes={flashes} form={form} />} />
-
     </Routes>
   );
 }
