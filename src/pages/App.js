@@ -63,7 +63,7 @@ export default function App() {
         onChange={handleChange}
       />
       <button type="submit" onClick={handleSubmit}>Search</button>
-      <ul>
+      <ul className="items">
         {foods.slice(10, 30).map((elem) => {
           if (elem.description.toLowerCase() === food.toLowerCase()) {
             return null;// no need to show it in the page
@@ -74,7 +74,7 @@ export default function App() {
               <>
                 <li className="foodDescription">{elem.description}</li>
                 <p className="title"> These are the nutrients that are present: </p>
-                <div className="container">
+                <div className="listofNutration">
                   {elem.foodNutrients.map((element) => (
                     <p className="nutration">
                       {element.nutrientName}
