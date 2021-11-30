@@ -63,7 +63,7 @@ export default function App() {
         onChange={handleChange}
       />
       <button type="submit" onClick={handleSubmit}>Search</button>
-      <p>
+      <ul>
         {foods.slice(10, 30).map((elem) => {
           if (elem.description.toLowerCase() === food.toLowerCase()) {
             return null;// no need to show it in the page
@@ -90,7 +90,7 @@ export default function App() {
           }
           return null;
         })}
-      </p>
+      </ul>
     </div>
   );
 }
