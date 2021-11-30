@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Dropdown, Option } from '../components/Dropdown';
-
+import {
+  AnchorButton, Row,
+} from '../Components';
 // This component will handle the diet lookup feature which will direct user to
 // the best overall Diets.
 export default function App() {
@@ -38,7 +40,11 @@ export default function App() {
 
   return (
     <div>
-      <h1> Find Out Best Overall Diets</h1>
+      <h1> BotTrition</h1>
+      <Row>
+        <AnchorButton to="/profile" text="View Profile" />
+      </Row>
+      <h2> Find Out Best Overall Diets</h2>
       <Dropdown
         buttonText="Submit"
         onChange={handleSelect}
@@ -65,6 +71,9 @@ export default function App() {
       <p>
         {foods.map((elem) => <li>{elem.description}</li>)}
       </p>
+      <Row>
+        <AnchorButton to="/login" text="Logout" />
+      </Row>
     </div>
   );
 }
