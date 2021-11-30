@@ -1,30 +1,35 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './pages/App';
 
-test('succesfully renders the submit button', () => {
-  render(<App />);
+test('succsfully renders the submit button', () => {
+  render(
+    <MemoryRouter>
+      <App data={{}} flashes={[]} />
+    </MemoryRouter>,
+  );
   const submitElement = screen.getByText('Submit');
   expect(submitElement).toBeInTheDocument();
 });
 
 test('selecting an option changes the paragraph text', () => {
-  const app = render(<App />);
-  const selectElement = app.container.querySelector('select#services');
-  expect(selectElement).toBeInTheDocument();
-
-  const option = screen.getByText('Mediterranean Diet');
-  expect(option).toBeInTheDocument();
-
-  fireEvent.change(selectElement, { target: { value: 'Mediterranean Diet' } });
-
-  const selectedText = screen.getByText('You selected Mediterranean Diet');
+  render(
+    <MemoryRouter>
+      <App data={{}} flashes={[]} />
+    </MemoryRouter>,
+  );
+  const selectedText = screen.getByText('You selected');
   expect(selectedText).toBeInTheDocument();
 });
 
 test('food item is searched when button is clicked', () => {
-  render(<App />);
+  render(
+    <MemoryRouter>
+      <App data={{}} flashes={[]} />
+    </MemoryRouter>,
+  );
   const button = screen.getByText('Search');
   fireEvent.click(button);
   const input = screen.getByPlaceholderText('Search...');
