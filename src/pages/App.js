@@ -80,7 +80,7 @@ export default function App() {
                       {element.nutrientName}
                       =
                       {element.value}
-                      g
+                      {element.unitName}
                     </p>
                   ))}
 
