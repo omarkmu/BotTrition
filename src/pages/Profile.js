@@ -29,7 +29,7 @@ export default function Profile(props) {
       <h1>Profile</h1>
 
       <Row>
-        <AnchorButton href="/app" text="View Main Page" />
+        <AnchorButton to="/app" text="View Main Page" />
       </Row>
 
       <Row>
@@ -55,6 +55,7 @@ export default function Profile(props) {
               labels={['4\'', '5\'', '6\'', '7\'']}
             />
 
+            <label hidden htmlFor="height_inches">Height (inches):</label>
             <Select
               id="height_inches"
               useDefault

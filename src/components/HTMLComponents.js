@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function trySubmit(form) {
   if (!form) return;
@@ -24,12 +25,13 @@ function trySubmit(form) {
 }
 
 export function AnchorButton(props) {
-  const { href, text } = props;
+  const { to, text } = props;
+  const navigate = useNavigate();
 
   return (
     <button
       type="button"
-      onClick={() => { window.location.href = href; }}
+      onClick={() => { navigate(to); }}
     >
       {text}
     </button>
@@ -68,7 +70,7 @@ export function Input(props) {
   }
 
   const [inputValue, setValue] = useState(initialValue);
-  const [validateRequired, setValidateRequired] = useState(false);
+  const [validateRequired, setValidateRequired] = useState(inputValue.toString().length > 0);
 
   // single-run useEffect to display form errors from flask
   const inputRef = useRef(null);
@@ -133,26 +135,24 @@ export function Select(props) {
   const valueArr = values ?? [];
   const textArr = labels ?? [];
   const options = valueArr.map((value, idx) => {
-    const isSelected = value === selected?.toString();
-    hasSelected ||= isSelected;
+    hasSelected ||= value === selected?.toString();
 
     return (
       <Option
-        selected={isSelected}
+        key={idx}
         value={value}
         text={textArr[idx] ?? value}
       />
     );
   });
 
+  const defaultValue = useDefault === true ? '' : useDefault;
   if (!hasSelected && useDefault !== undefined) {
-    const defaultValue = useDefault === true ? '' : useDefault;
-
     options.unshift(
       <Option
+        key={-1}
         value={defaultValue}
         text={defaultText ?? ''}
-        selected
         disabled
       />,
     );
@@ -162,6 +162,7 @@ export function Select(props) {
     <select
       id={id}
       name={id}
+      defaultValue={selected ?? defaultValue ?? valueArr?.[0]}
       {...rest}
     >
       {options}

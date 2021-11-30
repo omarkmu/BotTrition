@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Container, Flashes, Form, Input, Row, Submit,
 } from '../Components';
@@ -45,8 +46,7 @@ export default function Login(props) {
       <Row>
         Don&apos;t have an account? Register
         {' '}
-        {/* TODO: replace this with a React Router Link */}
-        <a href="/registration">here</a>
+        <Link to="/registration">here</Link>
         .
       </Row>
     </Container>
