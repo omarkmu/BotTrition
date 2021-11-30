@@ -29,7 +29,7 @@ export default function Profile(props) {
       <h1>Profile</h1>
 
       <Row>
-        <AnchorButton to="/app" text="View Main Page" />
+        <AnchorButton href="/app" text="View Main Page" />
       </Row>
 
       <Row>
@@ -97,7 +97,7 @@ export default function Profile(props) {
 
       <Flashes flashes={flashes} />
       <Row>
-        <AnchorButton to="/logout" text="Logout" />
+        <AnchorButton href="/logout" text="Logout" />
       </Row>
     </Container>
   );

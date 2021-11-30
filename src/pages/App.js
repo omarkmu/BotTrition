@@ -42,9 +42,8 @@ export default function App() {
     <div>
       <h1> BotTrition</h1>
       <Row>
-        <AnchorButton to="/profile" text="View Profile" />
+        <AnchorButton href="/profile" text="View Profile" />
       </Row>
-
       <h2> Find Out Best Overall Diets</h2>
 
       <Dropdown
@@ -74,7 +73,7 @@ export default function App() {
         {foods.map((elem) => <li>{elem.description}</li>)}
       </p>
       <Row>
-        <AnchorButton to="/logout" text="Logout" />
+        <AnchorButton href="/logout" text="Logout" />
       </Row>
     </div>
   );
