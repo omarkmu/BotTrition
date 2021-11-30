@@ -64,7 +64,7 @@ export default function App() {
       />
       <button type="submit" onClick={handleSubmit}>Search</button>
       <p>
-        {foods.map((elem) => {
+        {foods.slice(10, 30).map((elem) => {
           if (elem.description.toLowerCase() === food.toLowerCase()) {
             return null;
           }
