@@ -66,11 +66,27 @@ export default function App() {
       <p>
         {foods.slice(10, 30).map((elem) => {
           if (elem.description.toLowerCase() === food.toLowerCase()) {
-            return null;
+            return null;// no need to show it in the page
           }
           if (!set.has(elem.description.toLowerCase())) {
             set.add(elem.description.toLowerCase());
-            return <li>{elem.description}</li>;
+            return (
+              <>
+                <li>{elem.description}</li>
+                <p> These are the nutrations that are present: </p>
+                <div>
+                  {elem.foodNutrients.map((element) => (
+                    <p>
+                      {element.nutrientName}
+                      =
+                      {element.value}
+                      g
+                    </p>
+                  ))}
+
+                </div>
+              </>
+            );
           }
           return null;
         })}
