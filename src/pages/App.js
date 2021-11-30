@@ -42,7 +42,7 @@ export default function App() {
     <div>
       <h1> BotTrition</h1>
       <Row>
-        <AnchorButton href="/profile" text="View Profile" />
+        <AnchorButton to="/profile" text="View Profile" />
       </Row>
 
       <h2> Find Out Best Overall Diets</h2>
