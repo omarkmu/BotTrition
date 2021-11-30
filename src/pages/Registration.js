@@ -41,7 +41,7 @@ export default function Registration(props) {
             required
           />
 
-          <Submit id="submit" value="Login" />
+          <Submit id="submit" value="Register" />
         </Form>
       </Row>
 
