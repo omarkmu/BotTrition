@@ -7,7 +7,7 @@ test('renders profile page input elements', () => {
   render(
     <MemoryRouter>
       <Profile data={{}} flashes={[]} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 
   expect(screen.getByLabelText('Gender:')).toBeInTheDocument();
@@ -22,19 +22,19 @@ test('negative weight value is invalid', () => {
   render(
     <MemoryRouter>
       <Profile data={{}} flashes={[]} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 
   const weightInput = screen.getByLabelText('Weight:');
   expect(weightInput).toBeInTheDocument();
-  
-  fireEvent.change(weightInput, { target: { value: -1 }});
-  
+
+  fireEvent.change(weightInput, { target: { value: -1 } });
+
   expect(weightInput).toHaveValue(-1);
   expect(weightInput.checkValidity()).toBe(false);
 
-  fireEvent.change(weightInput, { target: { value: 1 }});
-  
+  fireEvent.change(weightInput, { target: { value: 1 } });
+
   expect(weightInput).toHaveValue(1);
   expect(weightInput.checkValidity()).toBe(true);
 });
@@ -43,18 +43,18 @@ test('birthdate earlier than year 1900 is invalid', () => {
   render(
     <MemoryRouter>
       <Profile data={{}} flashes={[]} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 
   const birthdateInput = screen.getByLabelText('Birthdate:');
   expect(birthdateInput).toBeInTheDocument();
-  
-  fireEvent.change(birthdateInput, { target: { value: '1800-12-31' }});
-  
+
+  fireEvent.change(birthdateInput, { target: { value: '1800-12-31' } });
+
   expect(birthdateInput).toHaveValue('1800-12-31');
   expect(birthdateInput.checkValidity()).toBe(false);
 
-  fireEvent.change(birthdateInput, { target: { value: '1900-01-01' }});
+  fireEvent.change(birthdateInput, { target: { value: '1900-01-01' } });
 
   expect(birthdateInput).toHaveValue('1900-01-01');
   expect(birthdateInput.checkValidity()).toBe(true);
@@ -65,13 +65,13 @@ test('saved data is displayed', () => {
     gender: 'female',
     height: 72,
     weight: 200,
-    birth_date: '1999-08-20'
+    birth_date: '1999-08-20',
   };
 
   render(
     <MemoryRouter>
       <Profile data={mockData} flashes={[]} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 
   const genderInput = screen.getByLabelText('Gender:');
@@ -79,7 +79,7 @@ test('saved data is displayed', () => {
   const inchesSelect = screen.getByLabelText('Height (inches):');
   const weightInput = screen.getByLabelText('Weight:');
   const birthdateInput = screen.getByLabelText('Birthdate:');
-  
+
   expect(genderInput).toBeInTheDocument();
   expect(feetSelect).toBeInTheDocument();
   expect(inchesSelect).toBeInTheDocument();
