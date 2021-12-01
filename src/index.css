@@ -79,7 +79,7 @@ a.nav-link {
 }
 
 /* https://stackoverflow.com/questions/19775344/bootstrap-3-how-to-create-an-inline-form-with-selects-and-labels/30928622 */
-.form-select {
+.form-select, .form-control {
   display: inline-block;
   width: auto;
 }

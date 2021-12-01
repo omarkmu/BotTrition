@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import FormSelect from 'react-bootstrap/FormSelect';
 
 function trySubmit(form) {
   if (!form) return;
@@ -31,12 +29,13 @@ export function AnchorButton(props) {
   const navigate = useNavigate();
 
   return (
-    <Button
+    <button
+      className="btn btn-primary"
       type="button"
       onClick={() => { navigate(to); }}
     >
       {text}
-    </Button>
+    </button>
   );
 }
 
@@ -102,6 +101,7 @@ export function Input(props) {
 
   return (
     <input
+      className="form-control"
       id={id}
       name={id}
       value={inputValue}
@@ -161,14 +161,15 @@ export function Select(props) {
   }
 
   return (
-    <FormSelect
+    <select
+      className="form-select"
       id={id}
       name={id}
       defaultValue={selected ?? defaultValue ?? valueArr?.[0]}
       {...rest}
     >
       {options}
-    </FormSelect>
+    </select>
   );
 }
 
@@ -180,13 +181,14 @@ export function Submit(props) {
   // proper submit-typed inputs break validity display;
   // have to use button with click handler
   return (
-    <Button
+    <button
+      className="btn btn-primary"
       type="button"
       id={id}
       name={id}
       onClick={(e) => trySubmit(e.target.form)}
     >
       {value}
-    </Button>
+    </button>
   );
 }
