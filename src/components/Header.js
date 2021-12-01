@@ -30,7 +30,7 @@ function BotIcon(props) {
 export default function Header() {
   const { pathname } = useLocation();
 
-  if (pathname === '/app') {
+  if (pathname === '/') {
     return (
       <div className="navbar">
         <div className="nav-left">
@@ -39,8 +39,8 @@ export default function Header() {
           </Link>
         </div>
         <div className="nav-right">
-          <AnchorButton to="/profile" text="Profile" />
-          <AnchorButton to="/login" text="Logout" />
+          <AnchorButton to="/login" text="Log in" />
+          <AnchorButton to="/registration" text="Register" />
         </div>
       </div>
     );
@@ -53,8 +53,8 @@ export default function Header() {
         </Link>
       </div>
       <div className="nav-right">
-        <AnchorButton to="/login" text="Log in" />
-        <AnchorButton to="/registration" text="Register" />
+        <AnchorButton to="/profile" text="Profile" />
+        <AnchorButton to="/login" text="Log out" />
       </div>
     </div>
   );
