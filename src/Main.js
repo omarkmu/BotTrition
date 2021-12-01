@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import App from './pages/App';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Registration from './pages/Registration';
@@ -22,6 +23,7 @@ const form = getData('form_data');
 export default function AppRouter() {
   return (
     <Routes>
+      <Route path="" element={<Landing />} />
       <Route path="app" element={<App />} />
       <Route path="login" element={<Login csrfToken={csrfToken} flashes={flashes} form={form} />} />
       <Route path="registration" element={<Registration csrfToken={csrfToken} flashes={flashes} form={form} />} />
