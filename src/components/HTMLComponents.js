@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 function trySubmit(form) {
   if (!form) return;
@@ -29,12 +30,12 @@ export function AnchorButton(props) {
   const navigate = useNavigate();
 
   return (
-    <button
+    <Button
       type="button"
       onClick={() => { navigate(to); }}
     >
       {text}
-    </button>
+    </Button>
   );
 }
 
@@ -178,13 +179,13 @@ export function Submit(props) {
   // proper submit-typed inputs break validity display;
   // have to use button with click handler
   return (
-    <button
+    <Button
       type="button"
       id={id}
       name={id}
       onClick={(e) => trySubmit(e.target.form)}
     >
       {value}
-    </button>
+    </Button>
   );
 }
