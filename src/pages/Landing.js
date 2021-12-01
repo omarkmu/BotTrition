@@ -28,7 +28,6 @@ export default function Landing() {
         If proper health is not maintained we could be at risk for life
         shortening ailments that could hamper our quality of life.
       </p>
-      <h3>Get started today on your new life today!</h3>
 
       <h3>Creators</h3>
       <p> Sourav Dhar, Drew Hartman, Omar Muhammad, and Brandon Dwyer</p>
