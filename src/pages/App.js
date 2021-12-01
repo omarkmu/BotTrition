@@ -85,6 +85,7 @@ export default function App() {
         <p>
           {`You selected ${optionValue}`}
         </p>
+        <label htmlFor="foodSearch">Search for food here:</label>
         <input
           type="text"
           placeholder="Search..."
