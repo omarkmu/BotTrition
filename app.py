@@ -153,6 +153,7 @@ def api_search():
     output = search(food_input)
     return flask.jsonify(output)
 
+
 @app.route("/workout", methods=["GET", "POST"])
 @login_required
 def workout():
