@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 export default function Landing() {
   useEffect(() => {
@@ -8,6 +9,7 @@ export default function Landing() {
 
   return (
     <div>
+      <Header />
       <h1>Take Charge Of Your Health With BotTrition</h1>
       <p>
         Imagine an app that can improve your overall health through lifestyle recommendations.
