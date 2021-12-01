@@ -12,9 +12,30 @@ export default function App() {
   const [food, setFoodValue] = useState('');
   const [foods, setFoodsValue] = useState([]);
   const set = new Set();
+  const [link, setLink] = useState();
 
   const handleSelect = (e) => {
     setOptionValue(e.target.value);
+    // eslint-disable-next-line no-console
+    console.log(e.target.value);
+    if (e.target.value === 'Mediterranean Diet') {
+      setLink('https://health.usnews.com/best-diet/mediterranean-diet');
+    }
+    if (e.target.value === 'DASH Diet') {
+      setLink('https://health.usnews.com/best-diet/dash-diet');
+    }
+    if (e.target.value === 'The Flexitarian Diet') {
+      setLink('https://health.usnews.com/best-diet/flexitarian-diet');
+    }
+    if (e.target.value === 'Weight Watchers Diet') {
+      setLink('https://health.usnews.com/best-diet/weight-watchers-diet');
+    }
+    if (e.target.value === 'Mayo Clinic Diet') {
+      setLink('https://health.usnews.com/best-diet/mayo-clinic-diet');
+    }
+    if (e.target.value === 'The MIND Diet') {
+      setLink('https://health.usnews.com/best-diet/mind-diet');
+    }
   };
   const handleChange = (e) => {
     setFoodValue(e.target.value);
@@ -51,7 +72,8 @@ export default function App() {
       <Dropdown
         buttonText="Submit"
         onChange={handleSelect}
-        action="https://health.usnews.com/best-diet/best-diets-overall"
+        action={link}
+
       >
         <Option value="Click to see options" />
         <Option value="Mediterranean Diet" />
