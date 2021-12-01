@@ -29,8 +29,6 @@ export default function Landing() {
         shortening ailments that could hamper our quality of life.
       </p>
       <h3>Get started today on your new life today!</h3>
-      <p><a href="/registration">Register</a></p>
-      <p><a href="/login">Login</a></p>
 
       <h3>Creators</h3>
       <p> Sourav Dhar, Drew Hartman, Omar Muhammad, and Brandon Dwyer</p>
