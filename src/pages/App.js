@@ -46,6 +46,8 @@ export default function App() {
       <h1>BotTrition</h1>
       <Row>
         <AnchorButton to="/profile" text="View Profile" />
+        <AnchorButton to="/workout" text="View Workout" />
+
       </Row>
       <h2> Find Out Best Overall Diets</h2>
       <Dropdown

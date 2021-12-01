@@ -30,6 +30,7 @@ export default function Profile(props) {
 
       <Row>
         <AnchorButton to="/app" text="View Main Page" />
+        <AnchorButton to="/workout" text="View Workout" />
       </Row>
 
       <Row>
