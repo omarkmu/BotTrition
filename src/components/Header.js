@@ -31,7 +31,7 @@ export default function Header() {
   return (
     <div className="navbar">
       <div className="nav-left">
-        <Link to="/" className="nav-link">
+        <Link to="/" className="nav-name">
           <BotIcon full />
         </Link>
       </div>

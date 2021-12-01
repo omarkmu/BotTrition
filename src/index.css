@@ -64,7 +64,7 @@ div.container-row {
   height: 100%;
   gap: 20px;
 }
-a.nav-link {
+a.nav-name {
   text-decoration: none;
   color: inherit;
 }
@@ -73,8 +73,6 @@ a.nav-link {
   white-space: nowrap;
 }
 .bot-icon-text {
-  position: relative;
-  bottom: 5px;
   margin-left: 10px;
 }
 
