@@ -3,6 +3,7 @@ import { Dropdown, Option } from '../components/Dropdown';
 import {
   AnchorButton, Row,
 } from '../Components';
+import { FoodCard } from '../components/CustomComponents';
 
 // This component will handle the diet lookup feature which will direct user to
 // the best overall Diets.
@@ -78,22 +79,7 @@ export default function App() {
           if (!set.has(elem.description.toLowerCase())) {
             set.add(elem.description.toLowerCase());
             return (
-              <>
-                <li className="foodDescription">{elem.description}</li>
-                <p className="title"> These are the nutrients that are present: </p>
-                <div className="listofNutration">
-                  {elem.foodNutrients.map((element) => (
-                    <p className="nutration">
-                      {element.nutrientName}
-                      =
-                      &nbsp;
-                      {element.value}
-                      {element.unitName}
-                    </p>
-                  ))}
-
-                </div>
-              </>
+              <FoodCard items={elem} />
             );
           }
           return null;
