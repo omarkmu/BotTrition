@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import FormSelect from 'react-bootstrap/FormSelect';
 
 function trySubmit(form) {
   if (!form) return;
@@ -160,14 +161,14 @@ export function Select(props) {
   }
 
   return (
-    <select
+    <FormSelect
       id={id}
       name={id}
       defaultValue={selected ?? defaultValue ?? valueArr?.[0]}
       {...rest}
     >
       {options}
-    </select>
+    </FormSelect>
   );
 }
 
