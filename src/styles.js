@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const DropdownWrapper = styled.form`
   display: flex;
   flex-flow: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const StyledSelect = styled.select`
@@ -29,4 +30,8 @@ export const StyledButton = styled.input`
   border: solid 2px blue;
   padding: 0.5rem;
   border-radius: 1rem;
+`;
+
+export const Container = styled.div`
+text-align: center;
 `;
