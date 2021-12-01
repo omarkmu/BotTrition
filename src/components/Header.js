@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AnchorButton } from './HTMLComponents';
 
 function BotIcon(props) {
@@ -28,16 +28,33 @@ function BotIcon(props) {
 }
 
 export default function Header() {
+  const { pathname } = useLocation();
+
+  if (pathname === '/') {
+    return (
+      <div className="navbar">
+        <div className="nav-left">
+          <Link to="/" className="nav-name">
+            <BotIcon full />
+          </Link>
+        </div>
+        <div className="nav-right">
+          <AnchorButton to="/login" text="Log in" />
+          <AnchorButton to="/registration" text="Register" />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="navbar">
       <div className="nav-left">
-        <Link to="/" className="nav-link">
+        <Link to="/" className="nav-name">
           <BotIcon full />
         </Link>
       </div>
       <div className="nav-right">
-        <AnchorButton to="/login" text="Login" />
-        <AnchorButton to="/registration" text="Register" />
+        <AnchorButton to="/profile" text="Profile" />
+        <AnchorButton to="/login" text="Log out" />
       </div>
     </div>
   );

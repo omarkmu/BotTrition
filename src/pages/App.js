@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Container } from '../styles';
 import { Dropdown, Option } from '../components/Dropdown';
 import {
   AnchorButton, Row,
 } from '../Components';
+import Header from '../components/Header';
 import { FoodCard } from '../components/CustomComponents';
 
 // This component will handle the diet lookup feature which will direct user to
@@ -64,53 +66,50 @@ export default function App() {
 
   return (
     <div>
-      <h1>BotTrition</h1>
-      <Row>
-        <AnchorButton to="/profile" text="View Profile" />
-      </Row>
-      <h2> Find Out Best Overall Diets</h2>
-      <Dropdown
-        buttonText="Submit"
-        onChange={handleSelect}
-        action={link}
-
-      >
-        <Option value="Click to see options" />
-        <Option value="Mediterranean Diet" />
-        <Option value="DASH Diet" />
-        <Option value="The Flexitarian Diet" />
-        <Option value="Weight Watchers Diet" />
-        <Option value="Mayo Clinic Diet" />
-        <Option value="The MIND Diet" />
-      </Dropdown>
-      <p>
-        {`You selected ${optionValue}`}
-      </p>
-      <h2>Food Search</h2>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={food}
-        onChange={handleChange}
-      />
-      <button type="submit" onClick={handleSubmit}>Search</button>
-      <ul className="items">
-        {foods.slice(10, 30).map((elem) => {
-          if (elem.description.toLowerCase() === food.toLowerCase()) {
-            return null;// no need to show it in the page
-          }
-          if (!set.has(elem.description.toLowerCase())) {
-            set.add(elem.description.toLowerCase());
-            return (
-              <FoodCard items={elem} />
-            );
-          }
-          return null;
-        })}
-      </ul>
-      <Row>
-        <AnchorButton to="/login" text="Logout" />
-      </Row>
+      <Header />
+      <Container>
+        <h2> Find Out Best Overall Diets</h2>
+        <Dropdown
+          buttonText="Submit"
+          onChange={handleSelect}
+          action={link}
+        >
+          <Option value="Click to see options" />
+          <Option value="Mediterranean Diet" />
+          <Option value="DASH Diet" />
+          <Option value="The Flexitarian Diet" />
+          <Option value="Weight Watchers Diet" />
+          <Option value="Mayo Clinic Diet" />
+          <Option value="The MIND Diet" />
+        </Dropdown>
+        <p>
+          {`You selected ${optionValue}`}
+        </p>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={food}
+          onChange={handleChange}
+        />
+        <button type="submit" onClick={handleSubmit}>Search</button>
+        <ul className="items">
+          {foods.slice(10, 30).map((elem) => {
+            if (elem.description.toLowerCase() === food.toLowerCase()) {
+              return null;// no need to show it in the page
+            }
+            if (!set.has(elem.description.toLowerCase())) {
+              set.add(elem.description.toLowerCase());
+              return (
+                <FoodCard items={elem} />
+              );
+            }
+            return null;
+          })}
+        </ul>
+        <Row>
+          <AnchorButton to="/login" text="Logout" />
+        </Row>
+      </Container>
     </div>
   );
 }

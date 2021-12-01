@@ -64,7 +64,7 @@ div.container-row {
   height: 100%;
   gap: 20px;
 }
-a.nav-link {
+a.nav-name {
   text-decoration: none;
   color: inherit;
 }
@@ -73,7 +73,11 @@ a.nav-link {
   white-space: nowrap;
 }
 .bot-icon-text {
-  position: relative;
-  bottom: 5px;
   margin-left: 10px;
+}
+
+/* https://stackoverflow.com/questions/19775344/bootstrap-3-how-to-create-an-inline-form-with-selects-and-labels/30928622 */
+.form-select, .form-control {
+  display: inline-block;
+  width: auto;
 }

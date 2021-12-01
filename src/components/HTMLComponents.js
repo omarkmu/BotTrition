@@ -30,6 +30,7 @@ export function AnchorButton(props) {
 
   return (
     <button
+      className="btn btn-primary"
       type="button"
       onClick={() => { navigate(to); }}
     >
@@ -100,6 +101,7 @@ export function Input(props) {
 
   return (
     <input
+      className="form-control"
       id={id}
       name={id}
       value={inputValue}
@@ -160,6 +162,7 @@ export function Select(props) {
 
   return (
     <select
+      className="form-select"
       id={id}
       name={id}
       defaultValue={selected ?? defaultValue ?? valueArr?.[0]}
@@ -179,6 +182,7 @@ export function Submit(props) {
   // have to use button with click handler
   return (
     <button
+      className="btn btn-primary"
       type="button"
       id={id}
       name={id}

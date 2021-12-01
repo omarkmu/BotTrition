@@ -4,11 +4,25 @@ function Footer() {
   return (
     <footer>
 
-      <div>
-        Made by
-        <a href="https://github.com/omarkmu/BotTrition/graphs/contributors" target="_blank" rel="noopener noreferrer" className="author"> BotTrition Team</a>
-      </div>
-
+      <nav className="navbar navbar-dark bg-dark fixed-bottom navbar-expand-xl">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="https://github.com/dhartman5">
+            Drew Hartman
+          </a>
+          <a className="navbar-brand" href="https://github.com/souravdhar199">
+            Sourav Dhar
+          </a>
+          <a className="navbar-brand" href="https://github.com/omarkmu/BotTrition/graphs/contributors">
+            The Team
+          </a>
+          <a className="navbar-brand" href="https://github.com/omarkmu">
+            Omar Muhammad
+          </a>
+          <a className="navbar-brand" href="https://github.com/BrandonDwyer">
+            Brandon Dwyer
+          </a>
+        </div>
+      </nav>
     </footer>
   );
 }
