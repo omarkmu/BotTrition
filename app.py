@@ -154,6 +154,15 @@ def api_search():
     return flask.jsonify(output)
 
 
+@app.route("/workout", methods=["GET", "POST"])
+@login_required
+def workout():
+    """
+    Workout exploration page of the app
+    """
+    return render()
+
+
 @app.route("/logout", methods=["GET", "POST"])
 @login_required
 def logout():

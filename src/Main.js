@@ -5,6 +5,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Registration from './pages/Registration';
+import Workout from './pages/Workout';
 
 // reads information sent from flask and deletes the element containing it
 function getData(key, json = true) {
@@ -24,6 +25,7 @@ export default function AppRouter() {
   return (
     <Routes>
       <Route path="" element={<Landing />} />
+      <Route path="workout" element={<Workout />} />
       <Route path="app" element={<App />} />
       <Route path="login" element={<Login csrfToken={csrfToken} flashes={flashes} form={form} />} />
       <Route path="registration" element={<Registration csrfToken={csrfToken} flashes={flashes} form={form} />} />

@@ -36,6 +36,9 @@ export default function Profile(props) {
         <h1>Profile</h1>
 
         <Row>
+
+          <AnchorButton to="/workout" text="View Workout" />
+
           <Form token={csrfToken}>
             <Row marginFactor={2}>
               <label htmlFor="gender">Gender:</label>

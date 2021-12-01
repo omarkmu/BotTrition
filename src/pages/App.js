@@ -69,6 +69,10 @@ export default function App() {
       <Header />
       <Container>
         <h2> Find Out Best Overall Diets</h2>
+        <Row>
+          <AnchorButton to="/workout" text="View Workout" />
+        </Row>
+
         <Dropdown
           buttonText="Submit"
           onChange={handleSelect}

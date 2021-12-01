@@ -58,6 +58,20 @@ export default function Header() {
         </div>
       </div>
     );
+  } if (pathname === '/workout') {
+    return (
+      <div className="navbar">
+        <div className="nav-left">
+          <Link to="/" className="nav-name">
+            <BotIcon full />
+          </Link>
+        </div>
+        <div className="nav-right">
+          <AnchorButton to="/app" text="Home" />
+          <AnchorButton to="/login" text="Log out" />
+        </div>
+      </div>
+    );
   }
   return (
     <div className="navbar">
