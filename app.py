@@ -160,7 +160,7 @@ def workout():
     """
     Workout exploration page of the app
     """
-    return redirect("workout")
+    return render()
 
 
 @app.route("/logout", methods=["GET", "POST"])
