@@ -22,7 +22,6 @@ function Footer() {
             Brandon Dwyer
           </a>
         </div>
-        {/* <a href="https://github.com/omarkmu/BotTrition/graphs/contributors" target="_blank" rel="noopener noreferrer" className="author">The BotTrition Team</a> */}
       </nav>
     </footer>
   );
