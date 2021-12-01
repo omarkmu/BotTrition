@@ -69,24 +69,6 @@ export default function App() {
       <Header />
       <Container>
         <h2> Find Out Best Overall Diets</h2>
-      </Container>
-      <Row>
-        <Dropdown
-          buttonText="Submit"
-          onChange={handleSelect}
-          action="https://health.usnews.com/best-diet/best-diets-overall"
-        >
-          <Option value="Click to see options" />
-          <Option value="Mediterranean Diet" />
-          <Option value="DASH Diet" />
-          <Option value="The Flexitarian Diet" />
-          <Option value="Weight Watchers Diet" />
-          <Option value="Mayo Clinic Diet" />
-          <Option value="The MIND Diet" />
-        </Dropdown>
-      </Row>
-      <Container>
-        <h2> Find Out Best Overall Diets</h2>
         <Dropdown
           buttonText="Submit"
           onChange={handleSelect}
