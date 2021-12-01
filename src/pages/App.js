@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Container } from '../styles';
 import { Dropdown, Option } from '../components/Dropdown';
 import {
   AnchorButton, Row,
 } from '../Components';
+import Header from '../components/Header';
 
 // This component will handle the diet lookup feature which will direct user to
 // the best overall Diets.
@@ -42,66 +44,69 @@ export default function App() {
 
   return (
     <div>
-      <h1>BotTrition</h1>
+      <Header />
+      <Container>
+        <h2> Find Out Best Overall Diets</h2>
+      </Container>
       <Row>
-        <AnchorButton to="/profile" text="View Profile" />
+        <Dropdown
+          buttonText="Submit"
+          onChange={handleSelect}
+          action="https://health.usnews.com/best-diet/best-diets-overall"
+        >
+          <Option value="Click to see options" />
+          <Option value="Mediterranean Diet" />
+          <Option value="DASH Diet" />
+          <Option value="The Flexitarian Diet" />
+          <Option value="Weight Watchers Diet" />
+          <Option value="Mayo Clinic Diet" />
+          <Option value="The MIND Diet" />
+        </Dropdown>
       </Row>
-      <h2> Find Out Best Overall Diets</h2>
-      <Dropdown
-        buttonText="Submit"
-        onChange={handleSelect}
-        action="https://health.usnews.com/best-diet/best-diets-overall"
-      >
-        <Option value="Click to see options" />
-        <Option value="Mediterranean Diet" />
-        <Option value="DASH Diet" />
-        <Option value="The Flexitarian Diet" />
-        <Option value="Weight Watchers Diet" />
-        <Option value="Mayo Clinic Diet" />
-        <Option value="The MIND Diet" />
-      </Dropdown>
-      <p>
-        {`You selected ${optionValue}`}
-      </p>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={food}
-        onChange={handleChange}
-      />
-      <button type="submit" onClick={handleSubmit}>Search</button>
-      <ul className="items">
-        {foods.slice(10, 30).map((elem) => {
-          if (elem.description.toLowerCase() === food.toLowerCase()) {
-            return null;// no need to show it in the page
-          }
-          if (!set.has(elem.description.toLowerCase())) {
-            set.add(elem.description.toLowerCase());
-            return (
-              <>
-                <li className="foodDescription">{elem.description}</li>
-                <p className="title"> These are the nutrients that are present: </p>
-                <div className="listofNutration">
-                  {elem.foodNutrients.map((element) => (
-                    <p className="nutration">
-                      {element.nutrientName}
-                      =
-                      &nbsp;
-                      {element.value}
-                      {element.unitName}
-                    </p>
-                  ))}
+      <Container>
+        <p>
+          {`You selected ${optionValue}`}
+        </p>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={food}
+          onChange={handleChange}
+        />
+        <button type="submit" onClick={handleSubmit}>Search</button>
+        <ul className="items">
+          {foods.slice(10, 30).map((elem) => {
+            if (elem.description.toLowerCase() === food.toLowerCase()) {
+              return null;// no need to show it in the page
+            }
+            if (!set.has(elem.description.toLowerCase())) {
+              set.add(elem.description.toLowerCase());
+              return (
+                <>
+                  <li className="foodDescription">{elem.description}</li>
+                  <p className="title"> These are the nutrients that are present: </p>
+                  <div className="listofNutration">
+                    {elem.foodNutrients.map((element) => (
+                      <p className="nutration">
+                        {element.nutrientName}
+                        =
+                        &nbsp;
+                        {element.value}
+                        {element.unitName}
+                      </p>
+                    ))}
 
-                </div>
-              </>
-            );
-          }
-          return null;
-        })}
-      </ul>
-      <Row>
-        <AnchorButton to="/login" text="Logout" />
-      </Row>
+                  </div>
+                </>
+              );
+            }
+            return null;
+          })}
+        </ul>
+        <Row>
+          <AnchorButton to="/login" text="Logout" />
+        </Row>
+      </Container>
     </div>
   );
 }
