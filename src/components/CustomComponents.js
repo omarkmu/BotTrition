@@ -66,7 +66,7 @@ export function FoodCard(props) {
             </div>
           ) : null
         }
-        <button type="button" className="btn btn-primary" onClick={() => setShow(!show)}>{show ? 'hide' : 'show'}</button>
+        <button type="button" className="btn btn-secondary" onClick={() => setShow(!show)}>{show ? 'hide' : 'show'}</button>
       </div>
 
     </>
