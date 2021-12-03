@@ -25,8 +25,20 @@ function trySubmit(form) {
 }
 
 export function AnchorButton(props) {
-  const { to, text } = props;
+  const { href, to, text } = props;
   const navigate = useNavigate();
+
+  if (href) {
+    return (
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={() => { window.location.href = href; }}
+      >
+        {text}
+      </button>
+    );
+  }
 
   return (
     <button
