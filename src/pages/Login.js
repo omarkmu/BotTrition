@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Container, Flashes, Form, Input, Row, Submit,
 } from '../Components';
+import Header from '../components/Header';
 
 export default function Login(props) {
   const {
@@ -16,39 +17,41 @@ export default function Login(props) {
   });
 
   return (
-    <Container>
-      <h1>Log In</h1>
+    <div>
+      <Header />
+      <Container>
+        <h1>Log In</h1>
+        <Row>
+          <Form token={csrfToken}>
+            <Input
+              form={form}
+              type="text"
+              id="username"
+              placeholder="Username"
+              required
+            />
 
-      <Row>
-        <Form token={csrfToken}>
-          <Input
-            form={form}
-            type="text"
-            id="username"
-            placeholder="Username"
-            required
-          />
+            <Input
+              form={form}
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
 
-          <Input
-            form={form}
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-          />
+            <Submit id="submit" value="Login" />
+          </Form>
+        </Row>
 
-          <Submit id="submit" value="Login" />
-        </Form>
-      </Row>
+        <Flashes flashes={flashes} />
 
-      <Flashes flashes={flashes} />
-
-      <Row>
-        Don&apos;t have an account? Register
-        {' '}
-        <Link to="/registration">here</Link>
-        .
-      </Row>
-    </Container>
+        <Row>
+          Don&apos;t have an account? Register
+          {' '}
+          <Link to="/registration">here</Link>
+          .
+        </Row>
+      </Container>
+    </div>
   );
 }

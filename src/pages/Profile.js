@@ -26,7 +26,6 @@ export default function Profile(props) {
   }
 
   const height = heightFeet * 12 + heightInches;
-  // const height = (heightFeet * 12) + heightInches;
   const bmi = (data.weight / (height * height)) * 703;
 
   return (

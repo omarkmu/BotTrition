@@ -58,6 +58,26 @@ export default function Header() {
         </div>
       </div>
     );
+  } if (pathname === '/login') {
+    return (
+      <div className="navbar">
+        <div className="nav-left">
+          <Link to="/" className="nav-name">
+            <BotIcon full />
+          </Link>
+        </div>
+      </div>
+    );
+  } if (pathname === '/registration') {
+    return (
+      <div className="navbar">
+        <div className="nav-left">
+          <Link to="/" className="nav-name">
+            <BotIcon full />
+          </Link>
+        </div>
+      </div>
+    );
   }
   return (
     <div className="navbar">

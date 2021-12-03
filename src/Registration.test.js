@@ -3,9 +3,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import Registration from './pages/Registration';
 
-test('succesfully renders the registeration button', () => {
+test('succesfully renders the registration button', () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={['/registration']}>
       <Registration data={{}} flashes={[]} />
     </MemoryRouter>,
   );
@@ -15,7 +15,7 @@ test('succesfully renders the registeration button', () => {
 
 test('Text fields are properly rendered', () => {
   render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={['/registration']}>
       <Registration data={{}} flashes={[]} />
     </MemoryRouter>,
   );
