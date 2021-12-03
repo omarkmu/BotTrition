@@ -75,7 +75,6 @@
     "eslint-config-airbnb": "^19.0.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-react": "^7.27.0",
-    "eslint-plugin-testing-library": "^5.0.0",
     "react-scripts": "^4.0.2"
   }
 }
