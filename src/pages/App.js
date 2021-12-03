@@ -18,8 +18,6 @@ export default function App() {
 
   const handleSelect = (e) => {
     setOptionValue(e.target.value);
-    // eslint-disable-next-line no-console
-    console.log(e.target.value);
     if (e.target.value === 'Mediterranean Diet') {
       setLink('https://health.usnews.com/best-diet/mediterranean-diet');
     }
@@ -57,8 +55,6 @@ export default function App() {
           // TODO: handle error checking here
         }
         if ('foods' in json) {
-          // eslint-disable-next-line no-console
-          console.log(json);
           setFoodsValue(json.foods);
         }
       });
