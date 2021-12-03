@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { Container } from '../styles';
-import { Dropdown, Option } from '../components/Dropdown';
+import React, { useState, useEffect } from 'react';
 import {
-  AnchorButton, Row,
+  Container, Form, Row, Select, Input,
 } from '../Components';
 import Header from '../components/Header';
 import { FoodCard } from '../components/CustomComponents';
@@ -14,12 +12,14 @@ export default function App() {
   const [food, setFoodValue] = useState('');
   const [foods, setFoodsValue] = useState([]);
   const set = new Set();
-  const [link, setLink] = useState();
+  const [link, setLink] = useState(null);
+
+  useEffect(() => {
+    document.title = 'BotTrition';
+  });
 
   const handleSelect = (e) => {
     setOptionValue(e.target.value);
-    // eslint-disable-next-line no-console
-    console.log(e.target.value);
     if (e.target.value === 'Mediterranean Diet') {
       setLink('https://health.usnews.com/best-diet/mediterranean-diet');
     }
@@ -57,42 +57,70 @@ export default function App() {
           // TODO: handle error checking here
         }
         if ('foods' in json) {
-          // eslint-disable-next-line no-console
-          console.log(json);
           setFoodsValue(json.foods);
         }
       });
   }
 
+  const handleClick = () => {
+    if (!link) return;
+    window.location.href = link;
+  };
+
   return (
-    <div>
+    <>
       <Header />
       <Container>
         <h2> Find Out Best Overall Diets</h2>
-        <Dropdown
-          buttonText="Submit"
+        <Form
           onChange={handleSelect}
-          action={link}
         >
-          <Option value="Click to see options" />
-          <Option value="Mediterranean Diet" />
-          <Option value="DASH Diet" />
-          <Option value="The Flexitarian Diet" />
-          <Option value="Weight Watchers Diet" />
-          <Option value="Mayo Clinic Diet" />
-          <Option value="The MIND Diet" />
-        </Dropdown>
-        <p>
-          {`You selected ${optionValue}`}
-        </p>
-        <label htmlFor="foodSearch">Search for food here:</label>
-        <input
+          <Row>
+            <Select
+              useDefault
+              defaultText="Click to see options"
+              values={[
+                'Mediterranean Diet',
+                'DASH Diet',
+                'The Flexitarian Diet',
+                'Weight Watchers Diet',
+                'Mayo Clinic Diet',
+                'The MIND Diet',
+              ]}
+            />
+          </Row>
+
+          <p>
+            {`You selected ${optionValue}`}
+          </p>
+
+          <Row>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleClick}
+            >
+              Submit
+            </button>
+          </Row>
+        </Form>
+
+        <h2>Food Search</h2>
+        <Input
           type="text"
           placeholder="Search..."
           value={food}
           onChange={handleChange}
         />
-        <button type="submit" onClick={handleSubmit}>Search</button>
+
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
+          Search
+        </button>
+
         <ul className="items">
           {foods.slice(10, 30).map((elem) => {
             if (elem.description.toLowerCase() === food.toLowerCase()) {
@@ -107,10 +135,7 @@ export default function App() {
             return null;
           })}
         </ul>
-        <Row>
-          <AnchorButton to="/login" text="Logout" />
-        </Row>
       </Container>
-    </div>
+    </>
   );
 }

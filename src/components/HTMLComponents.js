@@ -25,8 +25,20 @@ function trySubmit(form) {
 }
 
 export function AnchorButton(props) {
-  const { to, text } = props;
+  const { href, to, text } = props;
   const navigate = useNavigate();
+
+  if (href) {
+    return (
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={() => { window.location.href = href; }}
+      >
+        {text}
+      </button>
+    );
+  }
 
   return (
     <button
@@ -41,11 +53,11 @@ export function AnchorButton(props) {
 
 export function Form(props) {
   const {
-    children, method, action, token,
+    children, method, action, token, onChange,
   } = props;
 
   return (
-    <form method={method ?? 'POST'} action={action}>
+    <form method={method ?? 'POST'} action={action} onChange={onChange}>
       {token ? <input type="hidden" name="csrf_token" value={token} /> : null}
       {children}
     </form>

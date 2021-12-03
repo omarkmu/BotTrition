@@ -4,7 +4,7 @@ import Header from '../components/Header';
 
 export default function Landing() {
   useEffect(() => {
-    document.title = 'Landing – BotTrition';
+    document.title = 'BotTrition';
   });
 
   return (
