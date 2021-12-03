@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { Container } from '../styles';
+import React, { useState, useEffect } from 'react';
 import {
-  Form, Row, Select, Input,
+  Container, Form, Row, Select, Input,
 } from '../Components';
 import Header from '../components/Header';
 import { FoodCard } from '../components/CustomComponents';
@@ -9,12 +8,18 @@ import { FoodCard } from '../components/CustomComponents';
 // This component will handle the diet lookup feature which will direct user to
 // the best overall Diets.
 export default function App() {
+  const [optionValue, setOptionValue] = useState('');
   const [food, setFoodValue] = useState('');
   const [foods, setFoodsValue] = useState([]);
   const set = new Set();
   const [link, setLink] = useState(null);
 
+  useEffect(() => {
+    document.title = 'BotTrition';
+  });
+
   const handleSelect = (e) => {
+    setOptionValue(e.target.value);
     if (e.target.value === 'Mediterranean Diet') {
       setLink('https://health.usnews.com/best-diet/mediterranean-diet');
     }
@@ -84,6 +89,10 @@ export default function App() {
               ]}
             />
           </Row>
+
+          <p>
+            {`You selected ${optionValue}`}
+          </p>
 
           <Row>
             <button
